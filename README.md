@@ -71,10 +71,10 @@ No Windows, instale o MiKTeX (https://miktex.org/download) e, após a instalaç�
 Para compilar o documento, execute os seguintes comandos na ordem:
 
 ```bash
-pdflatex tcc.tex
-bibtex tcc
-pdflatex tcc.tex
-pdflatex tcc.tex
+pdflatex tcc_phelipe.tex
+bibtex tcc_phelipe
+pdflatex tcc_phelipe.tex
+pdflatex tcc_phelipe.tex
 ```
 
 **Por que compilar múltiplas vezes?**

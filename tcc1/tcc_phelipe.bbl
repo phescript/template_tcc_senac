@@ -1,0 +1,131 @@
+\providecommand{\abntreprintinfo}[1]{%
+ \citeonline{#1}}
+\setlength{\labelsep}{0pt}\begin{thebibliography}{}
+\providecommand{\abntrefinfo}[3]{}
+\providecommand{\abntbstabout}[1]{}
+\abntbstabout{v-1.9.7 }
+
+\bibitem[Bevilacqua et al. 2024]{Bevilacqua2024}
+\abntrefinfo{Bevilacqua et al.}{BEVILACQUA et al.}{2024}
+{BEVILACQUA, A. et al. Whispy: Adapting {STT} whisper models to real-time
+  environments.
+\emph{arXiv preprint arXiv:2405.03484}, 2024.}
+
+\bibitem[Chen et al. 2021]{Chen2021}
+\abntrefinfo{Chen et al.}{CHEN et al.}{2021}
+{CHEN, Y. et al. {FakeWake}: Understanding and mitigating fake wake-up words of
+  voice assistants. In:  \emph{Proceedings of the 2021 ACM SIGSAC Conference on
+  Computer and Communications Security}. [S.l.]: ACM, 2021. p. 1861--1883.}
+
+\bibitem[Devlin et al. 2019]{Devlin2019}
+\abntrefinfo{Devlin et al.}{DEVLIN et al.}{2019}
+{DEVLIN, J. et al. {BERT}: Pre-training of deep bidirectional transformers for
+  language understanding.
+\emph{Proceedings of the 2019 Conference of the North American Chapter of the
+  Association for Computational Linguistics: Human Language Technologies},
+  Association for Computational Linguistics, p. 4171--4186, 2019.}
+
+\bibitem[Dighe et al. 2021]{Dighe2021}
+\abntrefinfo{Dighe et al.}{DIGHE et al.}{2021}
+{DIGHE, P. et al. Knowledge transfer for efficient on-device false trigger
+  mitigation. In:  \emph{IEEE International Conference on Acoustics, Speech,
+  and Signal Processing (ICASSP)}. [S.l.: s.n.], 2021.}
+
+\bibitem[Garg et al. 2021]{Garg2021}
+\abntrefinfo{Garg et al.}{GARG et al.}{2021}
+{GARG, V. et al. Streaming transformer for hardware efficient voice trigger
+  detection and false trigger mitigation.
+\emph{Proceedings of Interspeech 2021}, 2021.}
+
+\bibitem[Jeffries et al. 2024]{Jeffries2024}
+\abntrefinfo{Jeffries et al.}{JEFFRIES et al.}{2024}
+{JEFFRIES, N. et al. Moonshine: Speech recognition for live transcription and
+  voice commands.
+\emph{arXiv preprint arXiv:2410.15608}, 2024.}
+
+\bibitem[Jurafsky e Martin 2024]{Jurafsky2024}
+\abntrefinfo{Jurafsky e Martin}{JURAFSKY; MARTIN}{2024}
+{JURAFSKY, D.; MARTIN, J.~H. \emph{Speech and Language Processing}. 3. ed.
+  [S.l.]: Pearson, 2024. Rascunho online dispon{\'i}vel em
+  https://web.stanford.edu/\~{}jurafsky/slp3/.}
+
+\bibitem[Krishna et al. 2023]{Krishna2023}
+\abntrefinfo{Krishna et al.}{KRISHNA et al.}{2023}
+{KRISHNA, G. et al. Modality dropout for multimodal device directed speech
+  detection using verbal and non-verbal features.
+\emph{arXiv preprint arXiv:2310.15261}, 2023.}
+
+\bibitem[Li et al. 2021]{Li2021}
+\abntrefinfo{Li et al.}{LI et al.}{2021}
+{LI, N. et al. Robust voice activity detection using a masked auditory encoder
+  based convolutional neural network. In:  \emph{IEEE International Conference
+  on Acoustics, Speech, and Signal Processing (ICASSP)}. [S.l.: s.n.], 2021.}
+
+\bibitem[{Next Move Strategy Consulting} 2025]{NMSC2025}
+\abntrefinfo{{Next Move Strategy Consulting}}{{Next Move Strategy
+  Consulting}}{2025}
+{{Next Move Strategy Consulting}. \emph{Voice Assistant Market Size and Share |
+  Statistics 2025-2030}. 2025.
+Acesso em: 09 abr. 2026.
+Dispon{\'\i}vel em:
+  \url{https://www.nextmsc.com/report/voice-assistant-market}.}
+
+\bibitem[Nie et al. 2021]{Nie2021}
+\abntrefinfo{Nie et al.}{NIE et al.}{2021}
+{NIE, L. et al. Multimodal activation: Awakening dialog robots without wake
+  words. In:  \emph{Proceedings of the 44th International ACM SIGIR Conference
+  on Research and Development in Information Retrieval}. [S.l.]: ACM, 2021. p.
+  491--500.}
+
+\bibitem[Radford et al. 2023]{Radford2023}
+\abntrefinfo{Radford et al.}{RADFORD et al.}{2023}
+{RADFORD, A. et al. Robust speech recognition via large-scale weak supervision.
+\emph{Proceedings of the 40th International Conference on Machine Learning},
+  PMLR, p. 28492--28518, 2023.}
+
+\bibitem[Rocha, J{\'u}nior e Faleiros 2024]{Rocha2024}
+\abntrefinfo{Rocha, J{\'u}nior e Faleiros}{ROCHA; J{\'U}NIOR; FALEIROS}{2024}
+{ROCHA, L.~R.; J{\'U}NIOR, A.~C.; FALEIROS, T. de P. {FLA-Dataset}: A database
+  of four location-based audio commands in {Brazilian} {Portuguese}. In:
+  \emph{Anais do Encontro Regional de Intelig{\^e}ncia Artificial e
+  Geoinform{\'a}tica (ERIGO)}. SBC, 2024. Dispon{\'\i}vel em:
+  \url{https://sol.sbc.org.br/index.php/erigo/article/view/39518}.}
+
+\bibitem[Souza, Nogueira e Lotufo 2020]{Souza2020}
+\abntrefinfo{Souza, Nogueira e Lotufo}{SOUZA; NOGUEIRA; LOTUFO}{2020}
+{SOUZA, F.; NOGUEIRA, R.; LOTUFO, R. {BERTimbau}: Pretrained {BERT} models for
+  {Brazilian} {Portuguese}. In:  \emph{Proceedings of the Brazilian Conference
+  on Intelligent Systems (BRACIS)}. [S.l.]: Springer, 2020. p. 403--417.}
+
+\bibitem[Vaswani et al. 2017]{Vaswani2017}
+\abntrefinfo{Vaswani et al.}{VASWANI et al.}{2017}
+{VASWANI, A. et al. Attention is all you need.
+\emph{Advances in Neural Information Processing Systems}, v.~30, p. 5998--6008,
+  2017.}
+
+\bibitem[Wagner et al. 2024]{Wagner2024}
+\abntrefinfo{Wagner et al.}{WAGNER et al.}{2024}
+{WAGNER, D. et al. A multimodal approach to device-directed speech detection
+  with large language models. In:  \emph{IEEE International Conference on
+  Acoustics, Speech, and Signal Processing (ICASSP)}. [S.l.: s.n.], 2024. p.
+  11^\circ.}
+
+\bibitem[Wang et al. 2024]{Wang2024}
+\abntrefinfo{Wang et al.}{WANG et al.}{2024}
+{WANG, A. et al. {M\textsuperscript{3}V}: A multi-modal multi-view approach for
+  device-directed speech detection.
+\emph{arXiv preprint arXiv:2405.XXXXX}, 2024.}
+
+\bibitem[Weld et al. 2022]{Weld2022}
+\abntrefinfo{Weld et al.}{WELD et al.}{2022}
+{WELD, H. et al. A survey of joint intent detection and slot-filling models in
+  natural language understanding.
+\emph{ACM Computing Surveys}, v.~55, n.~8, p. 1--38, 2022.}
+
+\bibitem[Xu et al. 2023]{Xu2023}
+\abntrefinfo{Xu et al.}{XU et al.}{2023}
+{XU, M. et al. Conformer-based speech recognition on extreme edge-computing
+  devices.
+\emph{arXiv preprint arXiv:2312.10359}, 2023.}
+
+\end{thebibliography}

@@ -1,99 +1,242 @@
 % ===============================================================
-% BIBLIOGRAFIA - TEMPLATE TCC1 SENAC SANTO AMARO
-% ===============================================================
-% Este arquivo contém exemplos de referências no padrão ABNT
-% (NBR 6023:2018) para diferentes tipos de fontes.
-%
-% O pacote abntex2cite formata automaticamente as referências.
-% Basta adicionar suas entradas aqui e usar \cite ou
-% \citeonline no texto.
-%
-% TIPOS DE ENTRADA E FORMATO ABNT:
-% -----------------------------------------------------------------
-% book          -> SOBRENOME, Nome. Titulo. Edicao. Local: Editora, Ano.
-% article       -> SOBRENOME, Nome. Titulo do artigo. Periodico, v. X, n. Y, p. XX-YY, Ano.
-% inproceedings -> SOBRENOME, Nome. Titulo. In: EVENTO, Local. Anais. Editora, Ano. p. XX-YY.
-% mastersthesis -> SOBRENOME, Nome. Titulo. Ano. Dissertacao (Mestrado) - Instituicao, Local, Ano.
-% phdthesis     -> SOBRENOME, Nome. Titulo. Ano. Tese (Doutorado) - Instituicao, Local, Ano.
-% misc          -> SOBRENOME, Nome. Titulo. Ano. Disponivel em: URL. Acesso em: data.
-% manual        -> ORGANIZACAO. Titulo. Local, Ano.
+% BIBLIOGRAFIA - TCC PHELIPE - DETECÇÃO DE INTENÇÃO IMPLÍCITA
 % ===============================================================
 
-
 % ---------------------------------------------------------------
-% EXEMPLOS DE LIVROS
-% Formato ABNT: SOBRENOME, Nome. Titulo: subtitulo. Edicao. Local: Editora, Ano.
+% ARTIGOS SEMINAIS (FUNDAMENTOS)
 % ---------------------------------------------------------------
 
-% Livro com um autor
+@article{Vaswani2017,
+  author    = {Ashish Vaswani and Noam Shazeer and Niki Parmar and Jakob Uszkoreit and Llion Jones and Aidan N. Gomez and {\L}ukasz Kaiser and Illia Polosukhin},
+  title     = {Attention Is All You Need},
+  journal   = {Advances in Neural Information Processing Systems},
+  volume    = {30},
+  year      = {2017},
+  pages     = {5998--6008}
+}
+
+@article{Devlin2019,
+  author    = {Jacob Devlin and Ming-Wei Chang and Kenton Lee and Kristina Toutanova},
+  title     = {{BERT}: Pre-training of Deep Bidirectional Transformers for Language Understanding},
+  journal   = {Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies},
+  year      = {2019},
+  pages     = {4171--4186},
+  publisher = {Association for Computational Linguistics}
+}
+
+@inproceedings{Souza2020,
+  author    = {F{\'a}bio Souza and Rodrigo Nogueira and Roberto Lotufo},
+  title     = {{BERTimbau}: Pretrained {BERT} Models for {Brazilian} {Portuguese}},
+  booktitle = {Proceedings of the Brazilian Conference on Intelligent Systems (BRACIS)},
+  year      = {2020},
+  pages     = {403--417},
+  publisher = {Springer},
+  doi       = {10.1007/978-3-030-61377-8_28}
+}
+
+@article{Radford2023,
+  author    = {Alec Radford and Jong Wook Kim and Tao Xu and Greg Brockman and Christine McLeavey and Ilya Sutskever},
+  title     = {Robust Speech Recognition via Large-Scale Weak Supervision},
+  journal   = {Proceedings of the 40th International Conference on Machine Learning},
+  year      = {2023},
+  pages     = {28492--28518},
+  publisher = {PMLR}
+}
+
+@inproceedings{Lugosch2019,
+  author    = {Loren Lugosch and Mirco Ravanelli and Patrick Ignoto and Vikrant Singh Tomar and Yoshua Bengio},
+  title     = {Speech Model Pre-Training for End-to-End Spoken Language Understanding},
+  booktitle = {Proceedings of Interspeech 2019},
+  year      = {2019},
+  pages     = {814--818},
+  doi       = {10.21437/Interspeech.2019-2396}
+}
+
+% ---------------------------------------------------------------
+% ARTIGOS SELECIONADOS - DETECÇÃO DE FALA DIRECIONADA (DDSD)
+% ---------------------------------------------------------------
+
+@inproceedings{Wagner2024,
+  author    = {Dominik Wagner and Alexander Churchill and Siddharth Sigtia and Panayiotis Georgiou and Matt Mirsamadi and Aarshee Mishra and Erik Marchi},
+  title     = {A Multimodal Approach to Device-Directed Speech Detection with Large Language Models},
+  booktitle = {IEEE International Conference on Acoustics, Speech, and Signal Processing (ICASSP)},
+  year      = {2024},
+  pages     = {11^\circ},
+  doi       = {10.1109/ICASSP48485.2024.10446224}
+}
+
+@article{Wagner2023,
+  author    = {Dominik Wagner and Alexander Churchill and Siddharth Sigtia and Panayiotis Georgiou and Matt Mirsamadi and Aarshee Mishra and Erik Marchi},
+  title     = {Multimodal Data and Resource Efficient Device-Directed Speech Detection with Large Foundation Models},
+  journal   = {arXiv preprint arXiv:2312.03632},
+  year      = {2023},
+  doi       = {10.48550/arXiv.2312.03632}
+}
+
+@article{Wang2024,
+  author    = {Anna Wang and Da Liu and Zhiyu Zhang and Shengqiang Liu and Jie Gao and Yali Li},
+  title     = {{M\textsuperscript{3}V}: A Multi-modal Multi-view Approach for Device-Directed Speech Detection},
+  journal   = {arXiv preprint arXiv:2405.XXXXX},
+  year      = {2024}
+}
+
+@inproceedings{Nie2021,
+  author    = {Liqiang Nie and Mengzhao Jia and Xuemeng Song and Ganglu Wu and Harry H. Cheng and Jian Gu},
+  title     = {Multimodal Activation: Awakening Dialog Robots without Wake Words},
+  booktitle = {Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval},
+  year      = {2021},
+  pages     = {491--500},
+  publisher = {ACM},
+  doi       = {10.1145/3404835.3462964}
+}
+
+@article{Krishna2023,
+  author    = {Gautam Krishna and Sameer Dharur and Oggi Rudovic and Pranay Dighe and Saurabh Adya and Ahmed Hussen Abdelaziz and Anthony H. Tewfik},
+  title     = {Modality Dropout for Multimodal Device Directed Speech Detection using Verbal and Non-Verbal Features},
+  journal   = {arXiv preprint arXiv:2310.15261},
+  year      = {2023},
+  doi       = {10.48550/arXiv.2310.15261}
+}
+
+% ---------------------------------------------------------------
+% ARTIGOS SELECIONADOS - CLASSIFICAÇÃO DE INTENÇÃO
+% ---------------------------------------------------------------
+
+@article{Jiang2021,
+  author    = {Yidi Jiang and Bidisha Sharma and Maulik C. Madhavi and Haizhou Li},
+  title     = {Knowledge Distillation from {BERT} Transformer to Speech Transformer for Intent Classification},
+  journal   = {arXiv preprint arXiv:2108.02598},
+  year      = {2021}
+}
+
+% ---------------------------------------------------------------
+% ARTIGOS SELECIONADOS - FALSE TRIGGER MITIGATION
+% ---------------------------------------------------------------
+
+@inproceedings{Dighe2021,
+  author    = {Pranay Dighe and Erik Marchi and Srikanth Vishnubhotla and Sachin Kajarekar and Devang Naik},
+  title     = {Knowledge Transfer for Efficient On-Device False Trigger Mitigation},
+  booktitle = {IEEE International Conference on Acoustics, Speech, and Signal Processing (ICASSP)},
+  year      = {2021},
+  doi       = {10.1109/ICASSP39728.2021.9414771}
+}
+
+@inproceedings{Chen2021,
+  author    = {Yanjiao Chen and Yijie Bai and Richard Mitev and Kaibo Wang and Ahmad-Reza Sadeghi and Wenyuan Xu},
+  title     = {{FakeWake}: Understanding and Mitigating Fake Wake-up Words of Voice Assistants},
+  booktitle = {Proceedings of the 2021 ACM SIGSAC Conference on Computer and Communications Security},
+  year      = {2021},
+  pages     = {1861--1883},
+  publisher = {ACM},
+  doi       = {10.1145/3460120.3485365}
+}
+
+@article{Garg2021,
+  author    = {Vineet Garg and Wonil Chang and Siddharth Sigtia and Saurabh Adya and Pramod Simha and Pranay Dighe and Chandra Dhir},
+  title     = {Streaming Transformer for Hardware Efficient Voice Trigger Detection and False Trigger Mitigation},
+  journal   = {Proceedings of Interspeech 2021},
+  year      = {2021},
+  doi       = {10.21437/INTERSPEECH.2021-1428}
+}
+
+@inproceedings{Cornell2021,
+  author    = {Samuele Cornell and Thibaud Balestri and Thibaud S{\'e}n{\'e}chal},
+  title     = {Implicit Acoustic Echo Cancellation for Keyword Spotting and Device-Directed Speech Detection},
+  booktitle = {IEEE Spoken Language Technology Workshop (SLT)},
+  year      = {2021},
+  doi       = {10.1109/SLT54892.2023.10022358}
+}
+
+% ---------------------------------------------------------------
+% ARTIGOS SELECIONADOS - VAD E ASR
+% ---------------------------------------------------------------
+
+@inproceedings{Li2021,
+  author    = {Nan Li and Longbiao Wang and Masashi Unoki and Sheng Li and Rui Wang and Meng Ge and Jianwu Dang},
+  title     = {Robust Voice Activity Detection Using a Masked Auditory Encoder Based Convolutional Neural Network},
+  booktitle = {IEEE International Conference on Acoustics, Speech, and Signal Processing (ICASSP)},
+  year      = {2021},
+  doi       = {10.1109/ICASSP39728.2021.9415045}
+}
+
+@article{Xu2023,
+  author    = {Mingbin Xu and Alex Jin and Sicheng Wang and Mu Su and Tim Ng and H. Benjamin Mason and Shiyi Han and Yaqiao Deng and Zhen Huang and Mahesh Krishnamoorthy},
+  title     = {Conformer-Based Speech Recognition On Extreme Edge-Computing Devices},
+  journal   = {arXiv preprint arXiv:2312.10359},
+  year      = {2023},
+  doi       = {10.48550/arXiv.2312.10359}
+}
+
+@article{Jeffries2024,
+  author    = {Nat Jeffries and Evan King and Manjunath Kudlur and Guy Nicholson and James Wang and Peter Warden},
+  title     = {Moonshine: Speech Recognition for Live Transcription and Voice Commands},
+  journal   = {arXiv preprint arXiv:2410.15608},
+  year      = {2024},
+  doi       = {10.48550/arXiv.2410.15608}
+}
+
+@article{Bevilacqua2024,
+  author    = {Antonio Bevilacqua and Paolo Saviano and Alessandro Amirante and Simon Pietro Romano},
+  title     = {Whispy: Adapting {STT} Whisper Models to Real-Time Environments},
+  journal   = {arXiv preprint arXiv:2405.03484},
+  year      = {2024},
+  doi       = {10.48550/arXiv.2405.03484}
+}
+
+% ---------------------------------------------------------------
+% ARTIGOS ADICIONADOS DO SCREENING
+% ---------------------------------------------------------------
+
+@article{Weld2022,
+  author    = {Henry Weld and Xiaoqi Huang and Siqu Long and Josiah Poon and Soyeon Caren Han},
+  title     = {A Survey of Joint Intent Detection and Slot-Filling Models in Natural Language Understanding},
+  journal   = {ACM Computing Surveys},
+  volume    = {55},
+  number    = {8},
+  year      = {2022},
+  pages     = {1--38},
+  doi       = {10.1145/3547138}
+}
+
+@inproceedings{Mallidi2018,
+  author    = {Sri Harsha Mallidi and Roland Maas and Ariya Rastrow and Bj{\"o}rn Hoffmeister},
+  title     = {Exploring Attention Mechanism for Acoustic-Based Classification of Speech Utterances into System-Directed and Non-System-Directed},
+  booktitle = {Proceedings of the IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  year      = {2018},
+  doi       = {10.1109/ICASSP.2019.8682555}
+}
+
+@inproceedings{Rocha2024,
+  author    = {Lucas R. Rocha and Arnaldo C{\^a}ndido J{\'u}nior and Thiago de Paulo Faleiros},
+  title     = {{FLA-Dataset}: A Database of Four Location-Based Audio Commands in {Brazilian} {Portuguese}},
+  booktitle = {Anais do Encontro Regional de Intelig{\^e}ncia Artificial e Geoinform{\'a}tica (ERIGO)},
+  year      = {2024},
+  publisher = {SBC},
+  url       = {https://sol.sbc.org.br/index.php/erigo/article/view/39518}
+}
+
+% ---------------------------------------------------------------
+% LIVROS E REFERENCIAS METODOLOGICAS
+% ---------------------------------------------------------------
+
 @book{Wazlawick2020,
   author    = {Raul Sidnei Wazlawick},
-  title     = {Metodologia de Pesquisa para Ciência da Computação},
+  title     = {Metodologia de Pesquisa para Ci{\^e}ncia da Computa{\c c}{\~a}o},
   publisher = {Elsevier},
   year      = {2020},
   edition   = {3},
   address   = {Rio de Janeiro}
 }
 
-% Livro com dois autores
-@book{Pressman2016,
-  author    = {Roger S. Pressman and Bruce R. Maxim},
-  title     = {Engenharia de Software: uma abordagem profissional},
-  publisher = {McGraw-Hill},
-  year      = {2016},
-  edition   = {8},
-  address   = {Porto Alegre}
+@article{Kitchenham2004,
+  author  = {Barbara Kitchenham},
+  title   = {Procedures for Performing Systematic Reviews},
+  journal = {Keele University Technical Report},
+  year    = {2004},
+  volume  = {33},
+  pages   = {1--26}
 }
 
-% Livro com um autor (outro exemplo)
-@book{Sommerville2019,
-  author    = {Ian Sommerville},
-  title     = {Engenharia de Software},
-  publisher = {Pearson},
-  year      = {2019},
-  edition   = {10},
-  address   = {São Paulo}
-}
-
-% Livro traduzido
-@book{Gamma2000,
-  author    = {Erich Gamma and Richard Helm and Ralph Johnson and John Vlissides},
-  title     = {Padrões de Projeto: soluções reutilizáveis de software orientado a objetos},
-  publisher = {Bookman},
-  year      = {2000},
-  address   = {Porto Alegre},
-  note      = {Tradução de Luiz A. Meirelles Salgado}
-}
-
-% Livro em inglês
-@book{Cormen2009,
-  author    = {Thomas H. Cormen and Charles E. Leiserson and Ronald L. Rivest and Clifford Stein},
-  title     = {Introduction to Algorithms},
-  publisher = {MIT Press},
-  year      = {2009},
-  edition   = {3},
-  address   = {Cambridge}
-}
-
-
-% ---------------------------------------------------------------
-% EXEMPLOS DE ARTIGOS DE PERIODICOS
-% Formato ABNT: SOBRENOME, Nome. Titulo do artigo. Periodico, Local, v. X, n. Y, p. XX-YY, ano.
-% ---------------------------------------------------------------
-
-% Artigo em periódico nacional
-@article{Silva2022,
-  author  = {João Carlos Silva and Maria Aparecida Santos},
-  title   = {Aplicação de técnicas formais na validação de sistemas distribuídos},
-  journal = {Revista Brasileira de Computação Aplicada},
-  year    = {2022},
-  volume  = {14},
-  number  = {2},
-  pages   = {45--58},
-  doi     = {10.5335/rbca.v14i2.12345}
-}
-
-% Artigo em periódico internacional
 @article{LeCun2015,
   author  = {Yann LeCun and Yoshua Bengio and Geoffrey Hinton},
   title   = {Deep Learning},
@@ -105,134 +248,19 @@
   doi     = {10.1038/nature14539}
 }
 
-% Artigo com DOI
-@article{Kitchenham2004,
-  author  = {Barbara Kitchenham},
-  title   = {Procedures for Performing Systematic Reviews},
-  journal = {Keele University Technical Report},
-  year    = {2004},
-  volume  = {33},
-  pages   = {1--26}
+@book{Jurafsky2024,
+  author    = {Daniel Jurafsky and James H. Martin},
+  title     = {Speech and Language Processing},
+  publisher = {Pearson},
+  year      = {2024},
+  edition   = {3},
+  note      = {Rascunho online dispon{\'i}vel em https://web.stanford.edu/\~{}jurafsky/slp3/}
 }
 
-
-% ---------------------------------------------------------------
-% EXEMPLOS DE ARTIGOS EM ANAIS DE EVENTOS
-% Formato ABNT: SOBRENOME, Nome. Titulo. In: EVENTO, Local. Anais. Editora, Ano.
-% ---------------------------------------------------------------
-
-% Artigo em congresso nacional
-@inproceedings{Oliveira2023,
-  author    = {Ana Paula Oliveira and Carlos Eduardo Ferreira},
-  title     = {Uma abordagem baseada em microsserviços para sistemas de e-commerce},
-  booktitle = {Anais do Simpósio Brasileiro de Engenharia de Software},
-  year      = {2023},
-  address   = {Campo Grande},
-  pages     = {112--121},
-  publisher = {SBC},
-  doi       = {10.5753/sbes.2023.00015}
+@misc{NMSC2025,
+  author       = {{Next Move Strategy Consulting}},
+  title        = {Voice Assistant Market Size and Share | Statistics 2025-2030},
+  year         = {2025},
+  url          = {https://www.nextmsc.com/report/voice-assistant-market},
+  note         = {Acesso em: 09 abr. 2026}
 }
-
-% Artigo em congresso internacional
-@inproceedings{Chen2016,
-  author    = {Tianqi Chen and Carlos Guestrin},
-  title     = {{XGBoost}: A Scalable Tree Boosting System},
-  booktitle = {Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
-  year      = {2016},
-  address   = {San Francisco},
-  pages     = {785--794},
-  publisher = {ACM},
-  doi       = {10.1145/2939672.2939785}
-}
-
-
-% ---------------------------------------------------------------
-% EXEMPLOS DE DISSERTACOES E TESES
-% Formato ABNT: SOBRENOME, Nome. Titulo. Ano. Dissertacao/Tese - Instituicao, Local, Ano.
-% ---------------------------------------------------------------
-
-% Dissertação de mestrado
-@mastersthesis{Santos2021,
-  author  = {Pedro Henrique Santos},
-  title   = {Análise de desempenho de algoritmos de aprendizado de máquina aplicados à detecção de fraudes em transações financeiras},
-  school  = {Universidade de São Paulo},
-  year    = {2021},
-  address = {São Paulo},
-  type    = {Dissertação (Mestrado em Ciência da Computação)}
-}
-
-% Tese de doutorado
-@phdthesis{Ferreira2019,
-  author  = {Juliana Cristina Ferreira},
-  title   = {Modelos de deep learning para processamento de linguagem natural em português brasileiro},
-  school  = {Universidade Estadual de Campinas},
-  year    = {2019},
-  address = {Campinas},
-  type    = {Tese (Doutorado em Ciência da Computação)}
-}
-
-
-% ---------------------------------------------------------------
-% EXEMPLOS DE SITES E RECURSOS ONLINE
-% Formato ABNT: AUTOR ou ORGANIZACAO. Titulo. Ano. Disponivel em: URL. Acesso em: data.
-% ---------------------------------------------------------------
-
-% Site institucional
-@misc{IBGE2024,
-  author = {{IBGE}},
-  title  = {Pesquisa Nacional por Amostra de Domicílios Contínua -- {PNAD} Contínua},
-  year   = {2024},
-  url    = {https://www.ibge.gov.br/estatisticas/sociais/trabalho/9171-pesquisa-nacional-por-amostra-de-domicilios-continua-mensal.html},
-  note   = {Acesso em: 15 jan. 2025}
-}
-
-% Documentação técnica online
-@misc{ReactDocs2025,
-  author = {{Meta}},
-  title  = {React -- A JavaScript library for building user interfaces},
-  year   = {2025},
-  url    = {https://react.dev},
-  note   = {Acesso em: 20 jan. 2025}
-}
-
-% Artigo em blog técnico
-@misc{Fowler2014,
-  author = {Martin Fowler},
-  title  = {Microservices: a definition of this new architectural term},
-  year   = {2014},
-  url    = {https://martinfowler.com/articles/microservices.html},
-  note   = {Acesso em: 10 fev. 2025}
-}
-
-
-% ---------------------------------------------------------------
-% EXEMPLOS DE MANUAIS E DOCUMENTACAO TECNICA
-% Formato ABNT: ORGANIZACAO. Titulo. Local, Ano.
-% ---------------------------------------------------------------
-
-@manual{ABNT2018,
-  organization = {{Associação Brasileira de Normas Técnicas}},
-  title        = {{NBR} 6023: informação e documentação --- referências --- elaboração},
-  year         = {2018},
-  address      = {Rio de Janeiro}
-}
-
-@manual{ISO25010,
-  organization = {{International Organization for Standardization}},
-  title        = {{ISO/IEC} 25010:2011 --- Systems and software engineering --- Systems and software Quality Requirements and Evaluation ({SQuaRE}) --- System and software quality models},
-  year         = {2011},
-  address      = {Geneva}
-}
-
-
-% ===============================================================
-% DICAS PARA O ALUNO:
-% ===============================================================
-% 1. Use chaves consistentes (ex: Sobrenome+Ano: Wazlawick2020)
-% 2. Preencha todos os campos obrigatórios para cada tipo
-% 3. Para sites, sempre inclua a data de acesso no campo "note"
-% 4. Use {} ao redor de siglas e nomes próprios para preservar
-%    a capitalização (ex: {IBGE}, {XGBoost})
-% 5. Para autores corporativos, use chaves duplas: {{Nome}}
-% 6. Compile com: pdflatex -> bibtex -> pdflatex -> pdflatex
-% ===============================================================
