@@ -1,9 +1,10 @@
 % ---------------------------------------------------------------
-% TCC1 - DETECÇÃO DE INTENÇÃO IMPLÍCITA PARA ASSISTENTES DE VOZ
+% TEMPLATE TCC1 - SENAC SANTO AMARO
 % ---------------------------------------------------------------
-% Phelipe Pereira de Souza
-% SENAC Santo Amaro - Bacharelado em Ciência da Computação
-% Orientador: Prof. Thyago Conchado Quintas
+% Trabalho de Conclusão de Curso 1
+% Elaborado para apresentação da proposta inicial do TCC
+% Estrutura: 4 capítulos (Introdução, Revisão Bibliográfica,
+%            Desenvolvimento, Referências Bibliográficas)
 % ---------------------------------------------------------------
 
 \documentclass[
@@ -67,6 +68,7 @@
 \local{São Paulo}
 \data{2026}
 \orientador{Prof. Thyago Conchado Quintas}
+% \coorientador{Prof. Nome do Coorientador} % Descomente se houver coorientador
 
 \instituicao{%
   SENAC -- Serviço Nacional de Aprendizagem Comercial
@@ -114,14 +116,28 @@
 % ---------------------------------------------------------------
 % RESUMO
 % ---------------------------------------------------------------
-\begin{resumo}
-Este trabalho apresenta a proposta de desenvolvimento de um sistema de detecção de intenção implícita para ativação de assistentes virtuais por voz, eliminando a necessidade de palavras de ativação explícitas (\textit{wake-words}). A abordagem proposta opera no nível textual, utilizando transcrições de fala obtidas via reconhecimento automático de fala (ASR) como entrada para um classificador de intenção baseado em modelos de linguagem pré-treinados para o português brasileiro, especificamente o BERTimbau. O sistema visa classificar automaticamente se uma fala é direcionada a um assistente virtual ou se pertence a uma conversação comum, em cenários com variáveis parcialmente controladas de ruído, número de participantes e contexto de interação. A pesquisa fundamenta-se em trabalhos recentes sobre \textit{Device-Directed Speech Detection} (DDSD) e classificação de intenção em linguagem natural, buscando contribuir para a área com uma solução voltada ao português brasileiro, idioma ainda pouco explorado na literatura sobre o tema. O trabalho está organizado em três capítulos que apresentam a introdução ao tema, a revisão bibliográfica e o desenvolvimento com a solução proposta e o cronograma de trabalho, seguidos das referências bibliográficas.
+% \begin{resumo}
 
-\vspace{\onelineskip}
+    
+% \vspace{\onelineskip}
 
-\noindent
-\textbf{Palavras-chave}: detecção de intenção. assistentes virtuais. processamento de linguagem natural. aprendizado de máquina. português brasileiro.
-\end{resumo}
+% \noindent
+% % \textbf{Palavras-chave}: palavra1. palavra2. palavra3. palavra4. palavra5.
+% \end{resumo}
+
+% ---------------------------------------------------------------
+% LISTA DE ILUSTRAÇÕES
+% ---------------------------------------------------------------
+% \pdfbookmark[0]{\listfigurename}{lof}
+% \listoffigures*
+% \cleardoublepage
+
+% ---------------------------------------------------------------
+% LISTA DE TABELAS
+% ---------------------------------------------------------------
+% \pdfbookmark[0]{\listtablename}{lot}
+% \listoftables*
+% \cleardoublepage
 
 % ---------------------------------------------------------------
 % SUMÁRIO
@@ -141,68 +157,183 @@ Este trabalho apresenta a proposta de desenvolvimento de um sistema de detecçã
 \chapter{Introdução}
 \label{cap:introducao}
 
+Nas últimas décadas, os assistentes virtuais baseados em voz tornaram-se componentes cada vez mais presentes no cotidiano, sendo incorporados em \textit{smartphones}, alto-falantes inteligentes, \textit{wearables} e sistemas de automação residencial \cite{Jurafsky2024}. Esses sistemas permitem que usuários interajam com dispositivos computacionais por meio de comandos de voz, facilitando a execução de tarefas como busca de informações, controle de dispositivos domésticos e gerenciamento de atividades. O mercado global de assistentes virtuais baseados em voz foi avaliado em US\$ 7,35 bilhões em 2024 e é projetado para alcançar US\$ 33,74 bilhões até 2030, com uma taxa de crescimento anual composta de 26,5\%, evidenciando a escala e a relevância dessa tecnologia \cite{NMSC2025}.
 
-Assistentes virtuais baseados em voz, como Google Assistant, Amazon Alexa e Apple Siri, tornaram-se componentes cada vez mais presentes no cotidiano, sendo incorporados em \textit{smartphones}, alto-falantes inteligentes, \textit{wearables} e sistemas de automação residencial. O mercado global de assistentes virtuais baseado em voz foi avaliado em US\$ 7,35 bilhões em 2024 e é projetado para alcançar US\$ 33,74 bilhões até 2030, com uma taxa de crescimento anual composta de 26,5\%, evidenciando a escala e a relevância dessa tecnologia \cite{NMSC2025}.
+Na maioria dos sistemas atuais, a interação com assistentes virtuais baseados em voz é iniciada por meio de palavras de ativação explícitas, conhecidas como \textit{wake-words} ou \textit{hotwords}, tais como ``Hey Siri'', ``Alexa'' ou ``Ok Google''. Essas expressões atuam como um mecanismo de gatilho que sinaliza ao sistema o desejo do usuário de iniciar uma interação. Do ponto de vista técnico, essa abordagem é eficaz, pois permite reduzir o processamento contínuo de áudio e minimizar ativações indevidas \cite{Garg2021}. No entanto, a dependência de \textit{wake-words} impõe limitações significativas à naturalidade da comunicação humano-computador, tornando a interação menos fluida e intuitiva quando comparada ao diálogo humano \cite{Nie2021}.
 
-Na maioria dos sistemas atuais, a interação com assistentes virtuais baseados em voz é iniciada por meio de palavras de ativação explícitas, conhecidas como \textit{wake-words} ou \textit{hotwords}, tais como ``Hey Siri'', ``Alexa'' ou ``Ok Google''. Essas expressões atuam como um mecanismo de gatilho que sinaliza ao sistema o desejo do usuário de iniciar uma interação. Do ponto de vista técnico, essa abordagem é eficaz, pois permite reduzir o processamento contínuo de áudio e minimizar ativações indevidas \cite{Garg2021}. No entanto, a dependência de \textit{wake-words} impõe limitações significativas à naturalidade da comunicação humano-máquina, tornando a interação menos fluida e intuitiva quando comparada ao diálogo humano.
+Em interações humanas cotidianas, comandos e solicitações são frequentemente expressos de forma implícita, inseridos naturalmente no fluxo da conversação, sem a necessidade de uma palavra específica para iniciar a comunicação \cite{Weld2022}. Em contraste, os sistemas baseados em \textit{wake-words} são vulneráveis ao fenômeno de ativações falsas por palavras foneticamente semelhantes, conhecido como \textit{FakeWake} \cite{Chen2021}. Esse problema compromete a qualidade da experiência, reforçando as limitações da abordagem atual para uma interação verdadeiramente natural e intuitiva.
 
-Em interações humanas cotidianas, comandos e solicitações são frequentemente expressos de forma implícita, inseridos naturalmente no fluxo da conversação, sem a necessidade de uma palavra específica para iniciar a comunicação. Em contraste, os sistemas baseados em \textit{wake-words} são vulneráveis ao fenômeno de ativações falsas por palavras foneticamente semelhantes, conhecido como \textit{FakeWake} \cite{Chen2021}. Esse problema compromete tanto a privacidade do usuário quanto a qualidade da experiência, reforçando as limitações da abordagem atual para uma interação verdadeiramente natural e intuitiva.
+Nesse cenário, surge a área de pesquisa denominada Detecção de Fala Direcionada ao Dispositivo, em inglês \textit{Device-Directed Speech Detection} (DDSD), que visa determinar automaticamente se uma fala é direcionada a um assistente virtual, mesmo na ausência de uma palavra de ativação explícita, ou se faz parte de uma conversa entre humanos \cite{Mallidi2018, Wagner2024}. Essa abordagem possibilita interações mais naturais e fluidas, reduzindo a necessidade de gatilhos verbais explícitos (\textit{wake-words}) e representando um avanço significativo rumo a uma comunicação humano-computador mais intuitiva e semelhante ao diálogo cotidiano.
 
-Nesse cenário, surge a área de pesquisa denominada Detecção de Fala Direcionada ao Dispositivo, em inglês \textit{Device-Directed Speech Detection} (DDSD), que visa determinar automaticamente se uma fala é direcionada a um assistente virtual ou se faz parte de uma conversa entre humanos \cite{Wagner2024}. Essa abordagem possibilita interações mais naturais e fluidas, dispensando a necessidade de gatilhos verbais explícitos (\textit{wake-words}) e representando um avanço significativo rumo a uma comunicação humano-máquina mais intuitiva e semelhante ao diálogo cotidiano.
+Este trabalho investiga a viabilidade da DDSD em português brasileiro por meio de uma abordagem baseada exclusivamente no nível textual. O sistema proposto opera com transcrições de fala obtidas via Reconhecimento Automático de Fala, em inglês \textit{Automatic Speech Recognition} (ASR), e aplica técnicas de Processamento de Linguagem Natural (PLN) e Aprendizado de Máquina, em inglês \textit{Machine Learning} (ML), para classificar automaticamente se uma fala é direcionada ao dispositivo ou faz parte de uma conversa incidental entre humanos. O foco central está na etapa de classificação de intenção; o ASR é tratado como módulo de pré-processamento responsável pela geração das transcrições textuais utilizadas como entrada do classificador.
 
-Este trabalho propõe investigar a detecção de intenção implícita em interações por voz por meio de uma abordagem baseada no nível textual. O sistema proposto opera com transcrições de fala obtidas via Reconhecimento Automático de Fala, em inglês \textit{Automatic Speech Recognition} (ASR), e aplica técnicas de Processamento de Linguagem Natural (PLN) e Aprendizado de Máquina, em inglês \textit{Machine Learning} (ML), para classificar automaticamente se uma fala é direcionada ao dispositivo ou faz parte de uma conversa incidental entre humanos. A pesquisa concentra-se especificamente no português brasileiro, buscando contribuir para a democratização e a adaptação cultural dessa tecnologia.
+% ---------------------------------------------------------------
+
+\section{Cenário motivador}
+\label{sec:cenario}
+
+Para ilustrar a dificuldade e a relevância do problema, considere o seguinte cenário: em uma sala de estar, duas pessoas conversam enquanto um assistente virtual permanece ligado. Umas delas diz, em tom casual: ``nossa, está escuro aqui''. O sistema não deve necessariamente acionar a iluminação, pois a frase é provavelmente um comentário, não um comando. Momentos depois, a mesma pessoa olha para o dispositivo e diz: ``acende a luz da sala''. Nesse caso, mesmo sem \textit{wake-word}, o sistema deveria identificar a fala como claramente direcionada ao dispositivo.
+
+Esse cenário ilustra três classes de enunciados que o sistema precisa distinguir: (i) comandos diretos implícitos dirigidos ao dispositivo, como ``acende a luz''; (ii) comentários incidentais que não são comandos, como ``nossa, está escuro aqui''; e (iii) casos ambíguos dependentes de contexto, como ``apaga a luz, por favor'', que pode ser dirigido a uma pessoa ou ao assistente. O problema de DDSD consiste precisamente em classificar automaticamente esses enunciados, sem depender de \textit{wake-words} explícitas \cite{Mallidi2018, Wagner2024}.
+
+Esse tipo de sistema tem aplicações relevantes em diferentes contextos: casas inteligentes, veículos com assistentes de voz, dispositivos para pessoas idosas, \textit{smartphones} e \textit{wearables}. Em todos esses cenários, a necessidade de invocar repetidamente o dispositivo com uma \textit{wake-word} cria uma barreira artificial entre o usuário e o sistema, reduzindo a naturalidade e a fluidez da interação \cite{Nie2021}.
 
 % ---------------------------------------------------------------
 \section{Contexto}
 \label{sec:contexto}
 
-O desenvolvimento dos assistentes virtuais baseados em voz acompanhou os avanços significativos nas áreas de ASR e PLN. Modelos como o Whisper \cite{Radford2023} representam um marco no campo do ASR, possibilitando transcrições de áudio com alta precisão e robustez em múltiplos idiomas, inclusive em condições adversas. Paralelamente, a arquitetura Transformer, proposta por \citeonline{Vaswani2017}, revolucionou o PLN, servindo de base para os modernos \textit{Large Language Models} (LLMs) que permitem uma compreensão semântica cada vez mais sofisticada da linguagem humana.
+O desenvolvimento dos assistentes virtuais baseados em voz acompanhou os avanços significativos nas áreas de ASR e PLN. Modelos como o Whisper \cite{Radford2023} representam um marco no campo do ASR, possibilitando transcrições de áudio com alta precisão e robustez em múltiplos idiomas. No entanto, sua arquitetura padrão opera em lotes (\textit{batch}), o que dificulta seu uso direto em interações fluidas que exigem processamento contínuo em tempo real (\textit{streaming}). Para contornar essa limitação, trabalhos como o Whispy \cite{Bevilacqua2024} propuseram adaptações arquiteturais para viabilizar o uso do Whisper nesses cenários dinâmicos. Paralelamente, surgiram modelos projetados para transcrição ao vivo com menor custo computacional, como o Moonshine \cite{Jeffries2024}, apresentado como uma alternativa otimizada para tarefas de comando de voz e assistentes embarcados.
 
-Para evitar o processamento contínuo de áudio e minimizar ativações indesejadas, a maioria dos assistentes virtuais atuais adota a técnica de detecção de palavra-chave (\textit{keyword spotting} ou \textit{wake-word detection}). Nessa abordagem, o sistema permanece em modo de baixo consumo até identificar uma \textit{wake-word} específica, como ``Hey Siri'', ``Alexa'' ou ``Ok Google'' \cite{Garg2021}. Embora eficiente do ponto de vista computacional e de privacidade, essa estratégia impõe uma comunicação rígida e pouco natural, exigindo que o usuário se adapte ao padrão do sistema em vez de interagir de forma fluida e conversacional.
+No caso específico do português brasileiro, modelos baseados na arquitetura Wav2Vec 2.0 \cite{Grosman2021}, treinados com dados locais, têm apresentado resultados expressivos, especialmente em cenários com menor disponibilidade de dados rotulados, oferecendo alta precisão e melhor adaptação às particularidades linguísticas do idioma.
 
-Em cenários de uso cotidiano, é comum que os usuários expressem comandos e solicitações de maneira contextual e implícita, sem a necessidade de uma palavra de ativação explícita. Por exemplo, em um ambiente doméstico, uma pessoa pode dizer ``apaga a luz'' ou ``aumenta o volume da TV'', dirigindo-se ao dispositivo sem preceder o comando com uma \textit{wake-word}. Identificar de forma automática essa intenção implícita constitui o principal desafio da área de DDSD.
+Simultaneamente, no campo do PLN, a arquitetura Transformer, proposta por \citeonline{Vaswani2017}, revolucionou o processamento de linguagem natural, servindo de base para os modernos \textit{Large Language Models} (LLMs). No cenário nacional, modelos como o BERTimbau \cite{Souza2020} consolidaram o uso de arquiteturas Transformer adaptadas ao português brasileiro em tarefas de compreensão textual, enquanto abordagens mais recentes, como Albertina \cite{Rodrigues2023} e DeBERTinha \cite{Abonizio2023}, buscam maior eficiência e desempenho em tarefas de representação linguística. Paralelamente, LLMs generativos como o Sabiá \cite{Pires2023} expandiram essas capacidades para aplicações conversacionais e de geração de texto, estabelecendo avanços relevantes no processamento de linguagem natural em português.
 
-Trabalhos recentes na área de DDSD têm explorado abordagens multimodais que combinam características acústicas, textuais e visuais para determinar se uma fala é direcionada ao dispositivo \cite{Wagner2024, Krishna2023, Nie2021}. Embora eficazes, a maioria dessas pesquisas concentra-se no idioma inglês e utiliza arquiteturas complexas que requerem múltiplas modalidades de entrada. Este trabalho propõe uma abordagem simplificada e mais acessível, baseada unicamente no nível textual, com foco no português brasileiro e no uso de modelos de linguagem pré-treinados para esse idioma.
+É importante delimitar o papel de cada família de modelos neste trabalho: os modelos ASR (Whisper, Moonshine, Wav2Vec 2.0) são utilizados exclusivamente como módulos de transcrição de fala para texto, gerando a entrada textual do classificador. Os modelos de linguagem pré-treinados (BERTimbau, Albertina, DeBERTinha) são os candidatos ao papel de classificador de intenção, componente central da proposta. Modelos como o Sabiá são mencionados apenas como parte do referencial teórico sobre o estado da arte em LLMs para o português. A tabela \ref{tab:tecnologias} sintetiza esse mapeamento.
+
+\begin{table}[H]
+\caption{Mapeamento de tecnologias citadas no trabalho}
+\label{tab:tecnologias}
+\begin{tabular}{lll}
+\toprule
+\textbf{Tecnologia} & \textbf{Papel no trabalho} & \textbf{Será implementada?} \\
+\midrule
+Whisper             & ASR - geração de transcrição     & Sim (principal) \\
+Moonshine           & ASR - alternativa leve           & Opcional \\
+Wav2Vec 2.0 PT-BR   & ASR - referência em português    & Opcional \\
+BERTimbau           & Classificador textual (principal) & Sim \\
+DeBERTinha          & Classificador textual (alternativo) & Opcional \\
+Albertina           & Classificador textual (alternativo) & Opcional \\
+TF-IDF + SVM/LR     & Baseline clássico                & Sim \\
+Sabiá               & Referencial teórico — LLM PT-BR  & Não \\
+\bottomrule
+\end{tabular}
+\fonte{Elaborado pelo autor.}
+\end{table}
+
+Pesquisas recentes na área de DDSD têm explorado abordagens semelhantes à proposta neste trabalho, utilizando transcrições de áudio aliadas a técnicas de PLN para superar as limitações de abordagens exclusivamente acústicas. Trabalhos como os de \citeonline{Wagner2024} e \citeonline{Dighe2024} demonstraram que a aplicação de modelos de linguagem sobre as hipóteses textuais geradas por sistemas ASR é uma estratégia promissora para detectar a intenção de fala direcionada ao dispositivo. Expandindo esse conceito, \citeonline{Rudovic2024} evidenciaram como essa análise baseada em texto permite compreender intenções em interações contínuas e fluxos de diálogo, corroborando a premissa de que a análise textual do áudio transcrito é um caminho viável e promissor.
 
 % ---------------------------------------------------------------
 \section{Justificativa}
 \label{sec:justificativa}
 
-A crescente presença de assistentes virtuais baseados em voz nos mais variados dispositivos computacionais evidencia a relevância de pesquisas voltadas à melhoria de interação humano-máquina. Apesar dos avanços significativos em ASR e PLN, a maioria dos sistemas atuais ainda depende de palavras de ativação explícitas (\textit{wake-word}), o que compromete a naturalidade e a fluidez da comunicação.
+A crescente presença de assistentes virtuais baseados em voz em diferentes dispositivos computacionais evidencia a relevância de pesquisas voltadas à melhoria de interações humano-computador. Apesar dos avanços significativos em ASR e PLN, a maioria dos sistemas atuais ainda depende de palavras de ativação explícitas (\textit{wake-words}), que podem comprometer a naturalidade e a fluidez da comunicação \cite{Mallidi2018}. Em ambientes dinâmicos, a necessidade de invocar repetidamente o dispositivo pode gerar fadiga no usuário e reduzir a percepção de naturalidade da interação \cite{Nie2021}. Nesse contexto, a DDSD apresenta-se como uma abordagem relevante para reduzir a dependência de palavras de ativação explícitas e promover interações mais fluidas e intuitivas \cite{Wagner2024}.
 
-Do ponto de vista acadêmico, o estudo de métodos alternativos de ativação baseados na detecção de intenção implícita contribui para o avanço em três áreas convergentes: Processamento de Linguagem Natural, Reconhecimento de Fala e Interação Humano-Computador. A literatura recente demonstra que abordagens multimodais para DDSD têm alcançado resultados promissores, com reduções de até 61\% na taxa de \textit{Equal Error Rate} (EER) em comparação com modelos unimodais \cite{Wagner2024}. Entretanto, tais abordagens geralmente demandam alto poder computacional e grandes volumes de dados multimodais, o que limita sua aplicação em dispositivos com recursos restritos. 
+Do ponto de vista acadêmico, o estudo de métodos alternativos de ativação baseados na detecção de intenção implícita atua na interseção de três áreas de pesquisa: (i) reconhecimento de fala, responsável pela transcrição do sinal acústico; (ii) processamento de linguagem natural, voltado à interpretação semântica; e (iii) interação humano-computador, que modela os aspectos de interação do sistema. Estudos recentes indicam que abordagens multimodais para DDSD têm alcançado melhorias consistentes em métricas de desempenho em comparação a modelos unimodais de texto ou áudio \cite{Wagner2024}. Entretanto, essas abordagens geralmente demandam alto poder computacional, grandes volumes de dados multimodais rotulados e processos complexos de sincronização entre modalidades, o que impõe barreiras significativas para o treinamento e a aplicação em dispositivos com recursos restritos \cite{Xu2024}.
 
-Sob a perspectiva prática, a capacidade de identificar automaticamente quando uma fala é direcionada ao assistente virtual, sem a necessidade de \textit{wake-words}, possibilita o desenvolvimento de interações mais naturais e intuitivas. Essa melhoria é especialmente relevante em ambientes residenciais e profissionais, onde o uso repetitivo de comandos de ativação pode causar fadiga cognitiva e desconforto ao usuário. 
+Além disso, observa-se uma lacuna relevante na literatura: os trabalhos sobre DDSD foram desenvolvidos predominantemente para o idioma inglês, empregando abordagens multimodais ou puramente acústicas \cite{Norouzian2019, Krishna2023}. O português brasileiro, apesar de ser um dos idiomas mais falados do mundo, permanece sub-representado nessa área, com escassez de estudos voltados à detecção de intenção implícita. 
 
-Adicionalmente, identifica-se uma lacuna importante na literatura: a grande maioria dos trabalhos sobre DDSD foi desenvolvida para o idioma inglês. O português brasileiro, apesar de ser um dos idiomas mais falados do mundo, ainda é sub-representado nessa área de pesquisa. A recente disponibilidade de modelos como o BERTimbau \cite{Souza2020} e de datasets como FLA-Dataset \cite{Rocha2024} representa um avanço, mas ainda há poucas investigações que exploram essas ferramentas no contexto de detecção de intenção implícita.
+Embora haja avanços recentes na disponibilização de recursos linguísticos para o português brasileiro, como modelos pré-treinados, a exemplo do BERTimbau \cite{Souza2020}, e \textit{datasets} de fala, como o CORAA ASR \cite{CORAA2023}, o NURC-SP \cite{NURCSP2025} e o TAGARELA \cite{Tagarela2026}, esses recursos são majoritariamente voltados para tarefas de reconhecimento de fala. Observa-se, portanto, uma escassez de corpora especificamente anotados para DDSD em português brasileiro, o que limita o desenvolvimento e a avaliação de métodos voltados à detecção de intenção implícita nesse idioma.
 
-Dessa forma, o presente trabalho busca contribuir para o preenchimento dessa lacuna ao investigar uma abordagem simplificada de detecção de intenção implícita baseada exclusivamente no nível textual, utilizando modelos de linguagem pré-treinados para o português brasileiro. Tal proposta visa oferecer uma solução mais acessível e eficiente, que não dependa de múltiplas modalidades de dados, facilitando sua aplicação em dispositivos com menor capacidade computacional.
+Diante desse cenário, este trabalho busca contribuir para o preenchimento dessa lacuna ao investigar uma abordagem de DDSD baseada exclusivamente no nível textual, a partir de transcrições geradas por sistemas ASR e utilizando modelos de linguagem pré-treinados para o português brasileiro. A escolha da modalidade textual justifica-se por três fatores principais: (i) modelos baseados em arquitetura Transformer alcançam estado da arte em tarefas de classificação de intenção e inferência semântica \cite{Weld2022}; (ii) experimentos recentes demonstram que aplicar modelos de linguagem sobre hipóteses de sistemas ASR fornece um sinal discriminativo relevante para distinguir entre fala dirigida e não dirigida ao sistema \cite{Wagner2024, Dighe2024}; e (iii) a abordagem em nível de texto garante maior modularidade arquitetural, facilitando a comparação com \textit{baselines} clássicos e a análise do impacto de erros de transcrição, configurando-se como uma alternativa prática e escalável \cite{Dighe2024}.
+
+Ainda que abordagens multimodais frequentemente alcancem melhor desempenho em métricas como a Taxa de Erro Igual, em inglês \textit{Equal Error Rate} (EER) \cite{Wagner2024}, a simplicidade, interpretabilidade e viabilidade prática da abordagem puramente textual configuram-se como uma alternativa relevante no contexto de recursos limitados para o português brasileiro. A abordagem textual não é apenas uma limitação de escopo, mas um decisão estratégica: permite criar um \textit{baseline} inicial sólido que, no futuro, pode ser combinado com informações acústicas e contextuais. O desenvolvimento deste sistema atua como um \textit{baseline} inicial para subsidiar pesquisas futuras em DDSD no contexto específico do português brasileiro.
+
+Vale ressaltar também que sistemas que detectam intenção de fala em ambiente contínuo levantam questões relevantes de privacidade e ética: escuta ambiente, ativação indevida, armazenamento de áudio e proteção de dados do usuário. Este trabalho não aborda implantação em dispositivos reais nem armazenamento contínuo de áudio, concentrando-se exclusivamente na classificação textual de transcrições em ambiente controlado. Estudos futuros devem considerar políticas de privacidade, processamento local (\textit{on-device}) e mecanismos de consentimento do usuário \cite{Chen2021}.
 
 % ---------------------------------------------------------------
-\section{Objetivo}
-\label{sec:objetivo}
+\section{Objetivos}
+\label{sec:objetivos}
+
 
 \subsection{Objetivo principal}
 
-Desenvolver e avaliar um sistema de classificação capaz de detectar intenção implícita em interações por voz, identificando, a partir de transcrições textuais, falas direcionadas a um assistente virtual em ambientes controlados, sem depender exclusivamente de palavras de ativação explícitas (\textit{wake-words}).
+O objetivo principal deste trabalho é avaliar a viabilidade e o desempenho de modelos de linguagem pré-treinados para o português brasileiro na tarefa de Detecção de Fala Direcionada ao Dispositivo (DDSD), operando exclusivamente sobre transcrições textuais geradas por sistemas ASR, e verificar se essa abordagem alcança desempenho superior a \textit{baselines} textuais tradicionais (TF-IDF + SVM/Regressão Logística) e desempenho competitivo em relação a abordagens unimodais reportadas na literatura, em termos de F1-score, acurácia e EER.
 
-\subsection{Objetivos secundários}
+\subsection{Objetivos específicos}
+
+Para que o objetivo principal seja alcançado, foram definidos os seguintes objetivos específicos:
 
 \begin{enumerate}
-    \item Realizar levantamento bibliográfico sobre Detecção de Fala Direcionada ao Dispositivo, em inglês \textit{Device-Directed Speech Detection} (DDSD), classificação de intenção em linguagem natural e modelos de linguagem pré-treinados;
-    \item Construir um \textit{dataset} de transcrições de fala em português brasileiro, contendo exemplos rotulados de falas direcionadas ao assistente virtual e falas de conversação comum;
-    \item Implementar um \textit{pipeline} de classificação de intenção composto por um módulo de Reconhecimento Automático de Fala, em inglês \textit{Automatic Speech Recognition} (ASR), seguido de um classificador textual baseado no BERTimbau, com modelos \textit{baseline} comparativos (TF-IDF + Regressão Logística e SVM linear);
-    \item Avaliar o desempenho do sistema utilizando métricas de classificação como precisão (\textit{precision}), revocação (\textit{recall}), acurácia (\textit{accuracy}) e F1-\textit{score}, com ênfase na minimização de falsos positivos;
-    \item Realizar análise comparativa conceitual entre a abordagem proposta e sistemas tradicionais baseados em \textit{wake-words}, utilizando dados de desempenho reportados na literatura.
+    \item Construir um corpus de sentenças em português brasileiro anotadas quanto à
+    direção da fala (dirigida ao dispositivo \textit{vs.} conversa incidental), a partir
+    de adaptações de \textit{datasets} existentes (CORAA ASR \cite{CORAA2023},
+    NURC-SP \cite{NURCSP2025}, TAGARELA \cite{Tagarela2026}) e de sentenças
+    sintetizadas em ambiente controlado, com critérios explícitos de anotação, protocolo
+    de concordância entre anotadores e divisão balanceada entre treino, validação e
+    teste;
+
+    \item Implementar e avaliar um classificador binário baseado no BERTimbau
+    \cite{Souza2020} como modelo principal, com BERTimbau ajustado por
+    \textit{fine-tuning} para a tarefa de DDSD, e comparar seu desempenho com um
+    \textit{baseline} clássico baseado em TF-IDF combinado com SVM ou Regressão
+    Logística \cite{Manning2008}, utilizando como entrada as transcrições geradas pelo
+    Whisper \cite{Radford2023};
+
+    \item Comparar o desempenho do classificador proposto com baselines estabelecidos na
+    literatura de DDSD, utilizando métricas padronizadas — F1-score, acurácia, precisão,
+    \textit{recall} e EER — e discutir os resultados em relação a abordagens unimodais
+    reportadas na literatura para o inglês, deixando explícito que essa comparação tem
+    caráter aproximado, dado que os \textit{datasets} e as modalidades diferem
+    \cite{Wagner2024};
+
+    \item Analisar o impacto de erros de transcrição do sistema ASR no desempenho do
+    classificador de intenção, comparando os resultados obtidos com transcrições manuais
+    e com transcrições automáticas, e medindo a correlação entre a Taxa de Erro de Palavras
+    (\textit{Word Error Rate}, WER) do ASR e a degradação do desempenho do classificador
+    \cite{Dighe2024}.
 \end{enumerate}
 
 % ---------------------------------------------------------------
 \section{Hipótese de pesquisa}
-\label{sec:hipotese}
 
-Este trabalho parte da hipótese de que um modelo de classificação baseado em características linguísticas extraídas de transcrições de fala em português brasileiro é capaz de identificar quando uma fala está sendo direcionada a um assistente virtual, mesmo na ausência de \textit{wake-words} explícitas.
+A hipótese central deste trabalho é a seguinte:
 
-A hipótese central pode ser formalizada da seguinte forma: um modelo de classificação textual baseado no BERTimbau, treinado com transcrições de fala rotuladas em português brasileiro, é capaz de alcançar um F1-score superior a 0,85 na tarefa de distinguir falas direcionadas ao assistente de falas pertencentes a conversações comuns em ambientes controlados, mantendo a taxa de falso positivo abaixo de 10\%.
+\textit{Modelos de linguagem pré-treinados para o português brasileiro, aplicados sobre
+transcrições geradas por sistemas ASR, conseguem alcançar desempenho superior a
+\textit{baselines} textuais tradicionais (TF-IDF + SVM ou Regressão Logística) e
+desempenho competitivo em relação a abordagens acústicas unimodais reportadas na
+literatura, considerando métricas como F1-score, acurácia e EER avaliadas sobre um
+corpus anotado em português brasileiro.}
+
+Essa hipótese é fundamentada em três evidências da literatura. Primeiro, estudos recentes
+demonstram que a análise textual de hipóteses ASR fornece um sinal discriminativo
+relevante e complementar ao sinal acústico para a tarefa de DDSD \cite{Wagner2024,
+Dighe2024}. Segundo, modelos baseados na arquitetura Transformer alcançam estado da arte
+em tarefas de classificação de intenção textual, superando abordagens tradicionais de
+aprendizado de máquina \cite{Weld2022}. Terceiro, modelos pré-treinados especificamente
+para o português brasileiro, como o BERTimbau \cite{Souza2020} e o DeBERTinha
+\cite{Abonizio2023}, têm demonstrado desempenho competitivo em tarefas de classificação
+textual, o que fundamenta sua aplicabilidade à tarefa proposta.
+
+A hipótese será testada por meio de experimentos controlados no TCC2, com avaliação
+quantitativa sobre um corpus anotado em português brasileiro, utilizando protocolo de
+validação cruzada e comparação explícita com os \textit{baselines} definidos nos
+Objetivos Específicos.
+
+\section{Limitações do trabalho}
+
+
+Este trabalho apresenta limitações inerentes ao seu escopo e ao contexto em que será
+desenvolvido.
+
+A primeira limitação diz respeito à modalidade de entrada. A abordagem proposta opera
+exclusivamente sobre o nível textual, descartando pistas acústicas como prosódia,
+entonação e características paralinguísticas que são reconhecidamente úteis para a
+tarefa de DDSD \cite{Norouzian2019, Krishna2023}. Essa é uma escolha estratégica de
+escopo: o objetivo é criar um \textit{baseline} textual sólido antes de incorporar
+modalidades adicionais. Ainda assim, implica que o sistema pode apresentar desempenho
+inferior a abordagens multimodais em cenários com alta variabilidade acústica.
+
+A segunda limitação refere-se ao impacto dos erros de transcrição. A qualidade das
+saídas geradas pelo sistema ASR afeta diretamente o classificador textual: erros de
+transcrição podem degradar o desempenho do modelo, especialmente em falas com sotaque,
+ruído de fundo ou vocabulário incomum \cite{Bevilacqua2024}. O impacto desses erros será
+analisado como parte dos experimentos, mas representa uma fonte de variabilidade não
+completamente controlável. A comparação entre transcrições manuais e automáticas, prevista
+no quarto objetivo específico, buscará quantificar essa degradação.
+
+A terceira limitação envolve a construção do corpus. A escassez de corpora
+especificamente anotados para DDSD em português brasileiro obriga a construção de um
+corpus próprio em ambiente controlado. Isso implica limitações em termos de escala,
+diversidade dialetal e espontaneidade. O corpus resultante não cobrirá toda a variabilidade
+da fala espontânea em contextos reais \cite{CORAA2023}, o que pode limitar a generalização
+dos resultados.
+
+Por fim, este trabalho não aborda aspectos de privacidade, armazenamento de áudio ou
+implantação contínua em dispositivos reais, concentrando-se exclusivamente na
+classificação textual de transcrições em ambiente controlado. Estudos futuros devem
+considerar políticas de privacidade, processamento local e mecanismos de consentimento
+do usuário \cite{Chen2021}.
 
 % ===============================================================
 % CAPÍTULO 2 - REVISÃO BIBLIOGRÁFICA
@@ -210,201 +341,48 @@ A hipótese central pode ser formalizada da seguinte forma: um modelo de classif
 \chapter{Revisão Bibliográfica}
 \label{cap:revisao}
 
-A revisão bibliográfica apresenta o embasamento teórico que fundamenta este trabalho, organizada por temas relevantes ao problema de pesquisa. Inicialmente, são apresentados os conceitos gerais que contextualizam a proposta. Em seguida, descreve-se a metodologia utilizada para a seleção dos trabalhos consultados. Os fundamentos técnicos são então detalhados, seguidos pela análise dos trabalhos diretamente relacionados ao problema abordado.
-
 % ---------------------------------------------------------------
 \section{Referencial teórico}
 \label{sec:referencial}
 
-\subsection{Assistentes virtuais e interação por voz}
-
-Assistentes virtuais são sistemas computacionais projetados para interpretar comandos em linguagem natural e executar tarefas automatizadas em resposta às solicitações dos usuários. Esses sistemas integram tecnologias de Reconhecimento Automático de Fala, em inglês \textit{Automatic Speech Recognition} (ASR), Compreensão de Linguagem Natural, em inglês \textit{Natural Language Understanding} (NLU) e Síntese de Fala, em inglês \textit{Text-to-Speech} (TTS) para viabilizar interações fluidas entre humanos e dispositivos \cite{Jurafsky2024}.
-
-O funcionamento típico de um assistente virtual baseado em voz segue um \textit{pipeline} composto por etapas sequenciais: (1) captura do sinal de áudio; (2) Detecção de Atividade de Voz, em inglês \textit{Voice Activity Detection} (VAD); (3) ASR; (4) NLU; e (5) geração da resposta ou execução da ação solicitada. Na maioria dos sistemas comerciais, as etapas de processamento são precedidas por um módulo de detecção de \textit{wake-word}, que atua como gatilho para iniciar o processamento mais custoso \cite{Garg2021}.
-
-A etapa de VAD tem como objetivo separar segmentos de fala do ruído de fundo e de sons não-verbais, evitando que trechos irrelevantes sobrecarreguem os módulos subsequentes. \citeonline{Li2021} propuseram um modelo robusto de VAD baseado em Redes Neurais Convolucionais com Codificador Auditivo Mascarado, em inglês Masked Auditory Encoder Convolutional Neural Network (M-AECNN), demonstrando que características inspiradas na audição humana podem melhorar significativamente a precisão da detecção em ambientes ruidosos.
-
-\subsection{Reconhecimento automático de fala (ASR)}
-
-% O Reconhecimento Automático de Fala (ASR) consiste na conversão de sinais acústicos de fala em texto escrito. Os avanços recentes nessa área foram impulsionados pelo uso de arquiteturas baseadas em Transformer \cite{Vaswani2017}, que substituíram abordagens anteriores baseadas em Redes Neurais Recorrentes.
-
-% O modelo Whisper, proposto por \citeonline{Radford2023}, representou um marco na área ao demonstrar que o treinamento em grande escala com supervisão fraca possibilita a construção de sistemas ASR robustos e multilíngues. O modelo foi treinado com aproximadamente 680 mil horas de áudio em múltiplos idiomas, incluindo o português, e apresenta desempenho competitivo em diversas tarefas, como transcrição, tradução e detecção de idioma.
-
-% Soluções voltadas à execução de modelos ASR em dispositivos de borda (\textit{edge computing}) também têm sido investigadas. \citeonline{Xu2023} propuseram otimizações para encaixar arquiteturas Conformer em dispositivos com restrições de recursos, enquanto \citeonline{Jeffries2024} desenvolveram o modelo Moonshine, uma arquitetura de codificador-decodificador que reduz significativamente os requisitos computacionais para transcrição em tempo real. De forma complementar, \citeonline{Bevilacqua2024} introduziram o sistema Whispy, que adapta modelos Whisper para operação em fluxos de áudio contínuos em tempo real.
-
-% -----------------------------------------------------------------------------
-
-O Reconhecimento Automático de Fala (Automatic Speech Recognition -- ASR) consiste na conversão de sinais acústicos da fala humana em texto escrito. Os avanços recentes nessa área foram fortemente impulsionados pela adoção de arquiteturas baseadas em Transformer \cite{Vaswani2017}, que substituíram os modelos baseados em Redes Neurais Recorrentes (RNNs) dominantes em períodos anteriores.
-
-Um marco importante foi o modelo Whisper, proposto por Radford et al. \cite{Radford2023}. Treinado com aproximadamente 680 mil horas de dados de áudio multilíngue sob supervisão fraca, o Whisper demonstrou alta robustez e generalização, alcançando desempenho competitivo em tarefas de transcrição, tradução de fala e identificação de idioma, inclusive para o português brasileiro.
-
-Paralelamente, tem crescido o interesse em soluções de ASR otimizadas para execução em dispositivos de borda (\textit{edge computing}). Xu et al. \cite{Xu2023} propuseram otimizações para modelos Conformer visando dispositivos com recursos extremamente limitados. Complementarmente, Jeffries et al. \cite{Jeffries2024} apresentaram o Moonshine, uma arquitetura de codificador-decodificador projetada especificamente para transcrição em tempo real e comandos de voz com baixa latência. Da mesma forma, Bevilacqua et al. \cite{Bevilacqua2024} desenvolveram o Whispy, um sistema que adapta modelos Whisper para operação em fluxos de áudio contínuos em tempo real.
-
-\subsection{Processamento de linguagem natural e classificação de intenção}
-
-O Processamento de Linguagem Natural (PLN) compreende o conjunto de técnicas computacionais para análise, compreensão e geração de linguagem humana. Na área de assistentes virtuais, a subárea de Compreensão de Linguagem Natural (NLU) desempenha papel central, sendo responsável por extrair o significado semântico das entradas do usuário \cite{Jurafsky2024}.
-
-A classificação de intenção (\textit{intent classification}) é uma das tarefas fundamentais em NLU. Dado um enunciado do usuário, o objetivo é determinar qual ação ou intenção subjacente esse enunciado expressa. As abordagens para essa tarefa evoluíram de modelos baseados em regras para métodos estatísticos e, mais recentemente, para modelos de aprendizado profundo \cite{Weld2022}.
-
-Segundo o levantamento realizado por \citeonline{Weld2022}, os modelos baseados em Transformers pré-treinados, como o BERT, têm apresentado resultados superiores em tarefas de detecção de intenção e preenchimento de \textit{slots}, superando abordagens baseadas em redes recorrentes e convolucionais. A possibilidade de realizar \textit{fine-tuning} em modelos pré-treinados com quantidades relativamente pequenas de dados rotulados tornou essa abordagem particularmente atrativa para domínios com recursos limitados.
-
-\subsection{Modelos baseados em Transformers}
-
-A arquitetura Transformer, proposta por \citeonline{Vaswani2017}, introduziu o mecanismo de atenção multi-cabeça (\textit{multi-head attention}) como alternativa às redes recorrentes para modelagem de dependências em sequências. Essa arquitetura possibilita o processamento paralelo de todos os elementos de uma sequência, resultando em maior eficiência computacional e melhor captura de dependências de longo alcance.
-
-O modelo BERT (\textit{Bidirectional Encoder Representations from Transformers}), proposto por \citeonline{Devlin2019}, aplica a arquitetura Transformer para pré-treinamento bidirecional de representações de linguagem. O pré-treinamento é realizado em duas etapas: \textit{Masked Language Modeling} (MLM), na qual o modelo aprende a prever tokens mascarados em uma sentença, e \textit{Next Sentence Prediction} (NSP), na qual o modelo aprende a determinar se duas sentenças são consecutivas. Após o pré-treinamento, o modelo pode ser ajustado (\textit{fine-tuning}) para tarefas específicas, como classificação de texto, com a adição de uma camada de classificação sobre a representação do token \texttt{[CLS]}.
-
-Para o português brasileiro, \citeonline{Souza2020} desenvolveram o BERTimbau, uma versão do BERT pré-treinada com um \textit{corpus} de textos em português brasileiro contendo aproximadamente 2,7 bilhões de tokens, extraídos de fontes como a Wikipédia em português e o \textit{corpus} brWaC. O BERTimbau demonstrou desempenho superior a modelos multilíngues em diversas tarefas de PLN para o português, incluindo reconhecimento de entidades nomeadas e similaridade textual.
-
-\subsection{Detecção de fala direcionada ao dispositivo (DDSD)}
-
-A Detecção de Fala Direcionada ao Dispositivo (\textit{Device-Directed Speech Detection} --- DDSD) é a tarefa de classificação binária que consiste em distinguir entre falas direcionadas a um assistente virtual e falas que fazem parte de conversas comuns ou ruído de fundo \cite{Krishna2023}. Essa tarefa representa uma alternativa ao uso de \textit{wake-words}, permitindo interações mais naturais entre o usuário e o dispositivo.
-
-Abordagens recentes para DDSD têm explorado a combinação de múltiplas modalidades de informação. \citeonline{Wagner2024} demonstraram que a fusão de informações acústicas, hipóteses do decodificador ASR e representações textuais em um modelo de linguagem grande (LLM) pode reduzir a taxa de erro em até 61\% em comparação com modelos que utilizam apenas uma modalidade. \citeonline{Krishna2023} investigaram o uso de características prosódicas (não verbais), como padrões de entonação e ritmo, em conjunto com características verbais, alcançando melhorias de até 8,5\% na taxa de falsa aceitação.
-
-Em uma abordagem multimodal distinta, \citeonline{Nie2021} propuseram um sistema que combina informações visuais (detecção facial e rastreamento de lábios) e acústicas (análise espectral MFCC) para determinar se o áudio capturado provém do usuário posicionado diante da câmera do dispositivo. Essa abordagem é particularmente relevante para robôs de diálogo equipados com sensores visuais.
-
-\subsection{Wake-words e seus limites}
-
-O mecanismo de \textit{wake-words} é a estratégia predominante para ativação de assistentes virtuais. Consiste em manter um detector de palavras-chave (\textit{keyword spotter}) continuamente ativo, processando o áudio ambiente com baixo consumo computacional até que a palavra de ativação seja reconhecida \cite{Garg2021}.
-
-Apesar de sua eficiência, esse mecanismo apresenta vulnerabilidades significativas. \citeonline{Chen2021} investigaram o fenômeno \textit{FakeWake}, no qual assistentes de voz são ativados inadvertidamente por palavras foneticamente semelhantes à \textit{wake-word} registrada. Os autores desenvolveram um gerador automático de ``palavras difusas'' (\textit{fuzzy words}) e conseguiram produzir 965 expressões capazes de ativar indevidamente oito dos assistentes de voz mais populares em inglês e chinês.
-
-Para mitigar o problema de ativações falsas, sistemas de Mitigação de Falsos Gatilhos (\textit{False Trigger Mitigation} --- FTM) foram desenvolvidos. \citeonline{Garg2021} propuseram uma arquitetura unificada baseada em Transformer com processamento em fluxo contínuo (\textit{streaming}), capaz de suprimir 95\% dos falsos gatilhos utilizando apenas um segundo de áudio pós-ativação. \citeonline{Dighe2021} introduziram uma abordagem baseada em transferência de conhecimento, na qual um modelo compacto baseado em LSTM é treinado para identificar a intenção do usuário diretamente a partir de características acústicas, sem a necessidade de gerar transcrições ASR explícitas.
-
-Essas limitações dos sistemas baseados em \textit{wake-words} reforçam a relevância de abordagens alternativas, como a DDSD, para a ativação de assistentes virtuais de forma mais natural e robusta.
 
 % ---------------------------------------------------------------
 \section{Metodologia da pesquisa bibliográfica}
 \label{sec:metodologia_pesquisa}
 
-A pesquisa bibliográfica foi conduzida de forma sistemática com o objetivo de identificar trabalhos científicos relevantes relacionados à detecção de intenção em linguagem natural, assistentes virtuais baseados em voz, detecção de fala direcionada ao dispositivo (DDSD) e técnicas de aprendizado de máquina aplicadas ao reconhecimento e classificação de comandos de voz.
-
-Foram consultadas bases de dados acadêmicas amplamente utilizadas na área de Computação, incluindo Google Scholar, Semantic Scholar, arXiv, IEEE Xplore e ACM Digital Library. Essas plataformas foram selecionadas por concentrarem artigos científicos, pré-publicações e trabalhos revisados por pares com abrangência nas áreas de processamento de fala, linguagem natural e aprendizado de máquina.
-
-As buscas foram realizadas utilizando combinações de palavras-chave em inglês, tais como: \textit{``voice assistant''}, \textit{``device-directed speech detection''}, \textit{``intent detection''}, \textit{``keyword spotting''}, \textit{``implicit intent''}, \textit{``wake-word''}, \textit{``false trigger mitigation''}, \textit{``natural language understanding''} e \textit{``voice command classification''}. Essas expressões foram combinadas utilizando operadores booleanos (AND, OR) com o objetivo de ampliar ou restringir os resultados conforme necessário.
-
-Como critérios de inclusão, foram considerados: (a) trabalhos publicados entre os anos de 2021 e 2026; (b) disponibilidade nos idiomas inglês ou português; (c) relação direta com o problema de pesquisa abordado, priorizando-se artigos que apresentassem experimentos, métodos de classificação ou avaliações de sistemas de interação por voz. Como exceção, foram incluídos artigos seminais anteriores ao período definido, por representarem contribuições fundamentais para a área (como os trabalhos sobre a arquitetura Transformer \cite{Vaswani2017} e o BERT \cite{Devlin2019}).
-
-Como critérios de exclusão, foram desconsiderados: (a) trabalhos publicados antes de 2021, exceto artigos seminais; (b) artigos sem relação direta com detecção de intenção, DDSD ou classificação de comandos de voz; (c) trabalhos duplicados entre as bases consultadas.
-
-O processo de seleção foi realizado em duas etapas. Na primeira etapa (triagem), foram identificados 118 artigos potencialmente relevantes com base na leitura do título e do resumo. Na segunda etapa (afunilamento), os artigos foram analisados com maior profundidade, resultando na seleção de 18 trabalhos para compor a fundamentação teórica, os trabalhos relacionados e as referências deste estudo. Adicionalmente, foram incluídos 5 artigos seminais anteriores a 2021 pela sua importância para a base teórica do trabalho.
+A pesquisa bibliográfica foi conduzida com o objetivo de identificar trabalhos científicos
+relevantes relacionados à detecção de intenção em linguagem natural, assistentes virtuais
+baseados em voz e técnicas de aprendizado de máquina aplicadas ao reconhecimento de
+comandos de voz.
+Foram consultadas bases de dados acadêmicas amplamente utilizadas na área de
+Computação, incluindo Google Scholar, Semantic Scholar e arXiv. Essas plataformas foram
+selecionadas por concentrarem artigos científicos, pré-publicações e trabalhos revisados
+por pares.
+As buscas foram realizadas utilizando combinações de palavras-chave em português
+e inglês, tais como: “voice assistant”, “intent detection”, “keyword spotting”, “implicit
+intent”, “natural language processing” e “voice command classification”. Essas expressões
+foram combinadas utilizando operadores booleanos, como AND e OR, com o objetivo de
+ampliar ou restringir os resultados conforme necessário.
+Como critérios de inclusão, foram considerados trabalhos publicados entre os anos de
+2021 e 2026, disponíveis nos idiomas inglês ou português, e que apresentassem relação
+direta com o problema de pesquisa abordado neste trabalho. Foram priorizados artigos
+que apresentassem experimentos, métodos de classificação ou avaliações de sistemas de
+interação por voz.
+Inicialmente, foi realizada uma triagem baseada na leitura do título e do resumo dos
+artigos encontrados. Trabalhos considerados relevantes foram posteriormente analisados
+com maior profundidade para compor a fundamentação teórica e a seção de trabalhos
+relacionados deste estudo.
 
 % ---------------------------------------------------------------
 \section{Fundamentos}
 \label{sec:fundamentos}
 
-Esta seção detalha as tecnologias, algoritmos e metodologias específicas que serão empregados no desenvolvimento da solução proposta.
-
-\subsection{Arquitetura Transformer}
-
-A arquitetura Transformer \cite{Vaswani2017} é composta por um codificador (\textit{encoder}) e um decodificador (\textit{decoder}), ambos formados por camadas empilhadas que utilizam mecanismos de atenção multi-cabeça e redes neurais \textit{feed-forward}. O mecanismo de atenção calcula a relevância de cada elemento da sequência de entrada em relação aos demais, por meio das matrizes de consultas ($Q$), chaves ($K$) e valores ($V$):
-
-\begin{equation}
-\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
-\label{eq:attention}
-\end{equation}
-
-\noindent onde $d_k$ é a dimensão do vetor de chaves. A atenção multi-cabeça executa essa operação em paralelo com diferentes projeções lineares, permitindo que o modelo capture diferentes tipos de dependências simultaneamente.
-
-Para a tarefa de classificação de intenção proposta neste trabalho, será utilizada apenas a parte codificadora (\textit{encoder}) da arquitetura, conforme o modelo BERT.
-
-\subsection{BERT e BERTimbau}
-
-O BERT \cite{Devlin2019} utiliza exclusivamente o codificador do Transformer para gerar representações contextuais bidirecionais de texto. O pré-treinamento é realizado em grandes \textit{corpora} de texto não rotulado, e o modelo resultante pode ser ajustado (\textit{fine-tuning}) para tarefas específicas com a adição de camadas de classificação.
-
-Para a classificação de sequências (como a classificação de intenção), a representação do token especial \texttt{[CLS]}, posicionado no início de cada entrada, é utilizada como representação global da sentença. Essa representação é então passada a uma camada densa com ativação \textit{softmax} para produzir a predição final.
-
-O BERTimbau \cite{Souza2020} é a versão do BERT pré-treinada especificamente para o português brasileiro. Disponível nas variantes \textit{base} (110 milhões de parâmetros) e \textit{large} (335 milhões de parâmetros), o modelo foi treinado com textos em português e demonstrou desempenho superior ao BERT multilíngue em tarefas de PLN para o português. Neste trabalho, será utilizada a variante \textit{base}, considerando as restrições de recursos computacionais disponíveis (GPU RTX A2000 com 12 GB de memória).
-
-\subsection{Modelos baseline}
-
-Para fins de comparação, serão implementados dois modelos \textit{baseline} que representam abordagens tradicionais de classificação de texto:
-
-\begin{itemize}
-    \item \textbf{TF-IDF + Regressão Logística}: a representação TF-IDF (\textit{Term Frequency-Inverse Document Frequency}) converte cada texto em um vetor numérico que pondera a importância de cada termo no documento em relação ao \textit{corpus}. Esse vetor é utilizado como entrada para um classificador de Regressão Logística;
-    \item \textbf{TF-IDF + SVM Linear}: a mesma representação TF-IDF é utilizada como entrada para uma Máquina de Vetores de Suporte (\textit{Support Vector Machine}) com \textit{kernel} linear, que busca encontrar o hiperplano ótimo de separação entre as classes.
-\end{itemize}
-
-Esses modelos servem como referência para avaliar o ganho de desempenho proporcionado pelo uso de representações contextuais do BERTimbau em comparação com representações estáticas baseadas em frequência de termos.
-
-\subsection{Métricas de avaliação}
-
-O desempenho dos modelos será avaliado com as seguintes métricas:
-
-\begin{itemize}
-    \item \textbf{Acurácia} (\textit{accuracy}): proporção de classificações corretas em relação ao total de amostras;
-    \item \textbf{Precisão} (\textit{precision}): proporção de verdadeiros positivos entre as amostras classificadas como positivas, indicando a confiabilidade das ativações do sistema;
-    \item \textbf{Revocação} (\textit{recall}): proporção de verdadeiros positivos entre todas as amostras efetivamente positivas, indicando a capacidade do sistema de detectar comandos reais;
-    \item \textbf{F1-\textit{score}}: média harmônica entre precisão e revocação, fornecendo uma métrica balanceada;
-    \item \textbf{Matriz de confusão}: representação tabular dos resultados de classificação, permitindo a análise detalhada de falsos positivos e falsos negativos.
-\end{itemize}
-
-Neste trabalho, será dada ênfase especial à minimização de falsos positivos, uma vez que ativações indevidas do assistente virtual comprometem a privacidade do usuário e a confiabilidade do sistema.
-
-\subsection{Reconhecimento automático de fala com Whisper}
-
-O módulo de ASR do \textit{pipeline} proposto utilizará o modelo Whisper \cite{Radford2023} para a conversão do áudio em texto. O Whisper é um modelo \textit{encoder-decoder} baseado em Transformer, treinado com supervisão fraca em grande escala. Para este trabalho, será utilizada a variante \textit{small} ou \textit{medium} do modelo, que oferece suporte ao português e pode ser executada na GPU disponível.
-
-O fluxo de processamento seguirá a sequência: captura do áudio $\rightarrow$ transcrição via Whisper $\rightarrow$ pré-processamento textual (normalização, remoção de ruído textual) $\rightarrow$ classificação de intenção via BERTimbau.
 
 % ---------------------------------------------------------------
 \section{Trabalhos relacionados}
 \label{sec:trabalhos_relacionados}
 
-Esta seção apresenta três trabalhos que compartilham o mesmo foco de resolução de problema: a detecção automática de fala direcionada a assistentes virtuais sem o uso de \textit{wake-words}. Para cada trabalho, são descritos o problema abordado, a metodologia utilizada, os principais resultados e as limitações identificadas.
 
-\subsection{Wagner et al. (2024) --- Abordagem multimodal para DDSD com LLMs}
-
-\citeonline{Wagner2024} abordaram o problema de determinar se uma fala é direcionada a um assistente virtual sem o uso de uma expressão de ativação prévia --- o mesmo problema central deste trabalho. Para resolvê-lo, os autores propuseram uma abordagem multimodal que combina três fontes de informação: (1) representações acústicas obtidas de um codificador de áudio; (2) hipóteses de transcrição do decodificador ASR; e (3) sinais do decodificador, todos integrados em um Large Language Model (LLM). O modelo foi treinado utilizando técnicas de adaptação de baixo posto (\textit{Low-Rank Adaptation} --- LoRA) e \textit{prefix tuning}.
-
-Os resultados mostraram reduções na Taxa de Erro de Igualdade (EER) de até 39\% em relação a modelos baseados apenas em texto e de até 61\% em relação a modelos baseados apenas em áudio. Aumentar o tamanho do LLM e aplicar LoRA proporcionou reduções adicionais de até 18\% no EER. No entanto, a solução depende de um LLM com capacidade significativa de processamento e requer acesso simultâneo a múltiplas modalidades de dados, o que pode limitar sua aplicação em cenários com recursos restritos.
-
-O presente trabalho diferencia-se dessa abordagem ao propor uma solução exclusivamente textual, baseada em um modelo de linguagem específico para o português brasileiro (BERTimbau), que não requer informações acústicas ou sinais do decodificador, sendo portanto mais acessível em termos de complexidade e recursos.
-
-\subsection{Nie et al. (2021) --- Ativação multimodal sem wake-words}
-
-\citeonline{Nie2021} abordaram o mesmo problema de ativar um robô de diálogo sem a necessidade de \textit{wake-words}. A solução proposta, denominada \textit{Multimodal Activation Scheme} (MAS), combina dois componentes: (1) detecção de consistência audiovisual, que verifica se o áudio captado corresponde aos movimentos labiais do usuário identificado pela câmera; e (2) inferência de intenção semântica de conversa, que analisa a transcrição da fala para determinar se o conteúdo é direcionado ao dispositivo.
-
-Para a detecção audiovisual, foram utilizadas duas redes CNN heterogêneas para processar, respectivamente, características faciais (\textit{landmarks}) e características espectrais (MFCC). Para a inferência de intenção, a transcrição foi processada por fatoração de matrizes para identificar tópicos latentes de interação humano-robô. Os autores construíram um \textit{dataset} composto por 12.741 vídeos gravados por 194 voluntários.
-
-A solução demonstrou eficácia na combinação de modalidades, porém apresenta limitações relacionadas à necessidade de câmera frontal e à complexidade do processamento visual em tempo real. Além disso, o sistema foi desenvolvido e avaliado exclusivamente em chinês, sem validação em outros idiomas. O presente trabalho diferencia-se ao focar exclusivamente na modalidade textual, dispensando sensores visuais, e ao direcionar a pesquisa para o português brasileiro.
-
-\subsection{Wang et al. (2024) --- M$^{3}$V: abordagem multi-view para DDSD}
-
-\citeonline{Wang2024} propuseram o M$^{3}$V (\textit{Multi-modal Multi-view}), uma abordagem que trata o problema de DDSD como uma tarefa de aprendizado multi-\textit{view}. O diferencial dessa abordagem é o tratamento explícito dos erros introduzidos pelo sistema ASR, que frequentemente causam desalinhamento entre as representações textuais e acústicas.
-
-O modelo introduz visões unimodais (processamento individual de áudio e texto) e uma visão de alinhamento texto-áudio, além da visão multimodal tradicional. Os resultados experimentais mostraram que o M\textsuperscript{3}V supera significativamente modelos treinados com uma única modalidade e até mesmo supera o julgamento humano em dados com erros de ASR.
-
-As limitações incluem a complexidade arquitetural do modelo e a dependência de dados multimodais pareados para treinamento. O presente trabalho diferencia-se ao adotar uma abordagem unimodal (apenas texto), que, embora potencialmente menos precisa, é substancialmente mais simples de implementar e não requer o tratamento explícito de desalinhamentos entre modalidades.
-
-\vspace{0.5cm}
-
-A Tabela~\ref{tab:trabalhos_relacionados} sintetiza a comparação entre os trabalhos relacionados e a proposta deste trabalho.
-
-\begin{table}[htb]
-    \centering
-    \caption{Comparação entre trabalhos relacionados}
-    \label{tab:trabalhos_relacionados}
-    \begin{tabular}{l|c|c|c|c}
-        \toprule
-        \textbf{Critério} & \textbf{Wagner} & \textbf{Nie} & \textbf{Wang} & \textbf{Este trabalho} \\
-        \midrule
-        Modalidades  & Áudio + Texto + ASR & Áudio + Vídeo & Áudio + Texto & Texto \\
-        \midrule
-        Modelo       & LLM + LoRA    & CNN + MF      & Multi-view    & BERTimbau \\
-        \midrule
-        Idioma       & Inglês        & Chinês        & Chinês        & Português (BR) \\
-        \midrule
-        Dataset      & Interno       & 12.741 vídeos & Interno       & Construído (PT-BR) \\
-        \midrule
-        Validação    & EER           & Acurácia      & EER           & F1, Precision, Recall \\
-        \midrule
-        Limitações   & Requer LLM    & Requer câmera & Complexidade  & Unimodal \\
-        \bottomrule
-    \end{tabular}
-    \legend{Fonte: Elaborado pelo autor (2026)}
-\end{table}
 
 % ===============================================================
 % CAPÍTULO 3 - DESENVOLVIMENTO
@@ -412,146 +390,15 @@ A Tabela~\ref{tab:trabalhos_relacionados} sintetiza a comparação entre os trab
 \chapter{Desenvolvimento}
 \label{cap:desenvolvimento}
 
-Neste capítulo, apresenta-se a solução proposta para o problema identificado, bem como o cronograma de trabalho previsto para o desenvolvimento completo do projeto no TCC2.
-
 % ---------------------------------------------------------------
 \section{Solução proposta}
 \label{sec:solucao}
 
-A solução proposta consiste em um sistema de detecção de intenção implícita baseado em um \textit{pipeline} de processamento textual, conforme ilustrado a seguir:
-
-\begin{center}
-\textbf{Áudio} $\rightarrow$ \textbf{ASR (Whisper)} $\rightarrow$ \textbf{Texto} $\rightarrow$ \textbf{Pré-processamento} $\rightarrow$ \textbf{Classificador (BERTimbau)} $\rightarrow$ \textbf{Saída}
-\end{center}
-
-\subsection{Visão geral}
-
-O sistema receberá como entrada segmentos de áudio capturados em ambientes controlados e produzirá como saída uma classificação binária indicando se a fala é \textbf{direcionada ao assistente virtual} ou \textbf{pertence a uma conversação comum}. O processamento é dividido em dois módulos principais:
-
-\begin{itemize}
-    \item \textbf{Módulo ASR}: responsável pela transcrição do áudio para texto, utilizando o modelo Whisper \cite{Radford2023} em sua variante adequada para o português brasileiro;
-    \item \textbf{Módulo NLU/Classificador}: responsável pela análise do texto transcrito e classificação da intenção, utilizando o BERTimbau \cite{Souza2020} com \textit{fine-tuning} para a tarefa de classificação binária.
-\end{itemize}
-
-\subsection{Definição de ambiente controlado}
-
-Para fins deste trabalho, o ambiente controlado é definido como um cenário com variáveis parcialmente controladas de ruído, número de participantes e contexto de interação, incluindo:
-
-\begin{itemize}
-    \item Ambientes residenciais simulados (sala de estar, quarto);
-    \item Ambientes profissionais (escritório com dois ou mais ocupantes);
-    \item Número limitado de falantes simultâneos (1 a 3 pessoas);
-    \item Ausência de sobreposição intensa de fala;
-    \item Ruído de fundo leve a moderado (televisão, ventilador, conversas ao fundo).
-\end{itemize}
-
-\subsection{Construção do dataset}
-
-O \textit{dataset} será construído com foco exclusivo no português brasileiro, composto por transcrições de fala organizadas em duas classes:
-
-\begin{enumerate}
-    \item \textbf{Device-directed} (DD): transcrições de comandos e solicitações direcionados a um assistente virtual (exemplos: ``apaga a luz'', ``qual a previsão do tempo'', ``toca uma música'');
-    \item \textbf{Non-device-directed} (NDD): transcrições de falas pertencentes a conversações comuns (exemplos: ``que horas a gente vai sair?'', ``eu preciso ir ao mercado'', ``gostei muito do filme'').
-\end{enumerate}
-
-A construção do \textit{dataset} seguirá três estratégias complementares: (a) tradução e adaptação de \textit{datasets} existentes em inglês, como o Fluent Speech Commands; (b) criação de exemplos originais baseados em cenários de uso residencial e profissional; e (c) validação e enriquecimento por meio da classificação de transcrições de vídeos no YouTube em português brasileiro.
-
-O FLA-Dataset \cite{Rocha2024}, um banco de dados de comandos de áudio em português brasileiro baseados em localização, será também utilizado como referência para a construção de exemplos de comandos em português.
-
-\subsection{Metodologia de desenvolvimento}
-
-O desenvolvimento seguirá uma abordagem iterativa, organizada nas seguintes etapas:
-
-\begin{enumerate}
-    \item Revisão bibliográfica e definição dos requisitos;
-    \item Construção e curadoria do \textit{dataset} em português brasileiro;
-    \item Implementação do \textit{pipeline} ASR (Whisper) + pré-processamento;
-    \item Treinamento e avaliação dos modelos \textit{baseline} (TF-IDF + Regressão Logística e TF-IDF + SVM);
-    \item \textit{Fine-tuning} e avaliação do modelo BERTimbau;
-    \item Análise comparativa dos resultados;
-    \item Documentação e escrita do TCC2.
-\end{enumerate}
-
-\subsection{Critérios de validação}
-
-O sistema será validado com base nas seguintes métricas: acurácia, precisão, revocação e F1-\textit{score}. A ênfase será dada à minimização de falsos positivos (ativações indevidas), métrica crítica para a usabilidade e confiabilidade de um assistente virtual.
-
-Adicionalmente, será realizada uma análise comparativa conceitual com sistemas baseados em \textit{wake-words}, utilizando dados de desempenho reportados na literatura, como as taxas de falso positivo de sistemas comerciais e os resultados de mitigação de falsos gatilhos apresentados por \citeonline{Garg2021} e \citeonline{Chen2021}.
-
-\subsection{Tecnologias e ferramentas}
-
-\begin{itemize}
-    \item \textbf{Linguagem}: Python 3.10+
-    \item \textbf{ASR}: Whisper (OpenAI) --- variante \textit{small} ou \textit{medium}
-    \item \textbf{Modelo principal}: BERTimbau \textit{base} \cite{Souza2020} via biblioteca Hugging Face Transformers
-    \item \textbf{Modelos baseline}: scikit-learn (TF-IDF, Regressão Logística, SVM)
-    \item \textbf{Treinamento}: PyTorch com aceleração GPU (RTX A2000, 12 GB)
-    \item \textbf{Pré-processamento}: NLTK, spaCy (português)
-    \item \textbf{Versionamento}: Git
-\end{itemize}
 
 % ---------------------------------------------------------------
 \section{Cronograma de trabalho}
 \label{sec:cronograma}
 
-O cronograma a seguir apresenta, no formato de diagrama de Gantt, as atividades previstas para o desenvolvimento do TCC2, distribuídas ao longo das semanas do semestre.
-
-\begin{figure}[htb]
-    \centering
-    \caption{Cronograma de atividades --- Diagrama de Gantt}
-    \label{fig:gantt}
-    \begin{ganttchart}[
-        hgrid,
-        vgrid,
-        x unit=0.72cm,
-        y unit title=0.6cm,
-        y unit chart=0.7cm,
-        title height=1,
-        bar height=0.5,
-        bar label font=\scriptsize,
-        title label font=\small,
-        milestone label font=\scriptsize\itshape,
-        group label font=\scriptsize\bfseries,
-        bar/.append style={fill=blue!40},
-        group/.append style={draw=black, fill=blue!70},
-        milestone/.append style={fill=red!70},
-    ]{1}{16}
-        % Título: semanas de 1 a 16
-        \gantttitle{Semanas}{16} \\
-        \gantttitlelist{1,...,16}{1} \\
-
-        % Grupo 1: Dataset e Preparação
-        \ganttgroup{Fase 1: Dados}{1}{5} \\
-        \ganttbar{Construção dataset}{1}{4} \\
-        \ganttbar{Pré-processamento}{3}{5} \\
-        \ganttmilestone{Dataset pronto}{5} \\
-
-        % Grupo 2: Desenvolvimento dos Modelos
-        \ganttgroup{Fase 2: Modelagem}{5}{11} \\
-        \ganttbar{Pipeline ASR (Whisper)}{5}{6} \\
-        \ganttbar{Modelos baseline}{6}{8} \\
-        \ganttbar{Fine-tuning BERTimbau}{7}{10} \\
-        \ganttbar{Análise comparativa}{10}{11} \\
-        \ganttmilestone{Modelos avaliados}{11} \\
-
-        % Grupo 3: Validação e Escrita
-        \ganttgroup{Fase 3: Validação}{12}{16} \\
-        \ganttbar{Testes e validação}{12}{14} \\
-        \ganttbar{Ajustes e otimização}{13}{15} \\
-        \ganttbar{Redação final TCC2}{13}{16} \\
-        \ganttmilestone{Entrega final}{16}
-
-        % Ligações
-        \ganttlink{elem2}{elem3}
-        \ganttlink{elem3}{elem4}
-        \ganttlink{elem6}{elem7}
-        \ganttlink{elem7}{elem8}
-        \ganttlink{elem8}{elem9}
-        \ganttlink{elem9}{elem10}
-        \ganttlink{elem12}{elem13}
-    \end{ganttchart}
-    \legend{Fonte: Elaborado pelo autor (2026)}
-\end{figure}
 
 % ---------------------------------------------------------------
 % ELEMENTOS PÓS-TEXTUAIS
@@ -559,8 +406,52 @@ O cronograma a seguir apresenta, no formato de diagrama de Gantt, as atividades 
 \postextual
 
 % ===============================================================
-% REFERÊNCIAS BIBLIOGRÁFICAS
+% CAPÍTULO 4 - REFERÊNCIAS BIBLIOGRÁFICAS
 % ===============================================================
+% As referências bibliográficas são geradas automaticamente a partir
+% do arquivo bibliografia.bib, seguindo o padrão ABNT (NBR 6023).
+%
+% COMO CITAR no texto:
+%   \cite{chave}         -> (SOBRENOME, ano) — citação indireta
+%   \citeonline{chave}   -> Sobrenome (ano) — citação direta no texto
+%
+% TIPOS DE REFERÊNCIA no arquivo .bib:
+%   @book        -> Livros
+%   @article     -> Artigos de periódicos
+%   @inproceedings -> Artigos em anais de eventos
+%   @mastersthesis -> Dissertações de mestrado
+%   @phdthesis   -> Teses de doutorado
+%   @misc        -> Sites, vídeos e outros materiais
+%   @manual      -> Documentação técnica
+%
+% Veja o arquivo bibliografia.bib para exemplos de cada tipo.
+% ---------------------------------------------------------------
 \bibliography{bibliografia}
+
+% ---------------------------------------------------------------
+% APÊNDICES (se necessário)
+% ---------------------------------------------------------------
+% \begin{apendicesenv}
+% \partapendices
+%
+% \chapter{Nome do Apêndice}
+% \label{ap:apendice1}
+%
+% Conteúdo do apêndice (material elaborado pelo próprio autor).
+%
+% \end{apendicesenv}
+
+% ---------------------------------------------------------------
+% ANEXOS (se necessário)
+% ---------------------------------------------------------------
+% \begin{anexosenv}
+% \partanexos
+%
+% \chapter{Nome do Anexo}
+% \label{an:anexo1}
+%
+% Conteúdo do anexo (material de terceiros).
+%
+% \end{anexosenv}
 
 \end{document}
